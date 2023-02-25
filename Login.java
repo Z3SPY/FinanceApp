@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 
 
-public class Login extends JFrame implements ActionListener, FocusListener {
+public class Login extends JFrame implements ActionListener {
 
     float width = 500, height = 700;
     JTextField passText, userText;
@@ -19,12 +19,12 @@ public class Login extends JFrame implements ActionListener, FocusListener {
     JPanel imagePanel, inputPanel;
 
 
-    public int getDimen(float n, double d) {
+    public static int getDimen(float n, double d) {
         return (int) Math.round(n * d);
     }
     
     Login() {
-        this.setTitle("Login and Registration Page");
+        this.setTitle("Login Page");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize((int)width, (int)height);
@@ -38,21 +38,28 @@ public class Login extends JFrame implements ActionListener, FocusListener {
         inputPanel.setBounds(getDimen(width, .52), 0, getDimen(width, .45), (int)height);
         inputPanel.setBackground(Color.GREEN);
 
-
+        //Username Text Field
         userText = new HintTextField("Username");
         userText.setBounds(20, (getDimen(height, .05) * 0) + 10, getDimen(width, .35), getDimen(height, .05));
+        userText.addActionListener(this);
 
+        //Password Text Field
         passText = new HintTextField("Password");
         passText.setBounds(20, (getDimen(height, .05) * 1) + 10 * 2, getDimen(width, .35), getDimen(height, .05));
-
-        submit = new JButton("Login");
+        passText.addActionListener(this);
+        
+        //Login Button
+        submit = new JButton("LOGIN");
         submit.setBounds(20, (getDimen(height, .05) * 2) + 10 * 3, getDimen(width, .35), getDimen(height, .05));
+        submit.addActionListener(this);
 
+        //Register button
         registerLabel = new JLabel("Click here to register");
         registerLabel.setBounds(50, (getDimen(height, .05) * 4) + 10 * 1, getDimen(width, .35), getDimen(height, .05));
         registerLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 System.out.println("Yo");
+                new Register();
               }
 
             public void mouseEntered(MouseEvent me) {
@@ -66,7 +73,7 @@ public class Login extends JFrame implements ActionListener, FocusListener {
         });
 
 
-        
+        //Adding to panel
         inputPanel.add(passText);
         inputPanel.add(userText);
         inputPanel.add(submit);
@@ -82,20 +89,18 @@ public class Login extends JFrame implements ActionListener, FocusListener {
     }
 
     @Override
-    public void focusGained(FocusEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'focusGained'");
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'focusLost'");
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+
+        if (e.getSource() == submit) {
+            if (userText.getText().length() != 0 && passText.getText().length() != 0) {
+                new Dashboard();
+            } else {
+                return;
+            }
+        }
+       
+
+        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 }
