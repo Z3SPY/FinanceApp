@@ -1,6 +1,10 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+<<<<<<< HEAD
+=======
+import javax.swing.JOptionPane;
+>>>>>>> da9356ff0f01a7b72997e021facb05a21cf48d53
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -22,6 +26,18 @@ public class Login extends JFrame implements ActionListener {
     public static int getDimen(float n, double d) {
         return (int) Math.round(n * d);
     }
+<<<<<<< HEAD
+=======
+
+    //Clean up Code Spacing using this
+    public static int[] calculateOffSet(int size, int offSet, int origY) {
+        int arrOffSet[] = new int[size];
+        for (int i = 0; i < size; i++) {
+            arrOffSet[i] = origY + (i * offSet);
+        }
+        return arrOffSet;
+    }
+>>>>>>> da9356ff0f01a7b72997e021facb05a21cf48d53
     
     Login() {
         this.setTitle("Login Page");
@@ -59,7 +75,11 @@ public class Login extends JFrame implements ActionListener {
         registerLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 System.out.println("Yo");
+<<<<<<< HEAD
                 new Register();
+=======
+                new Register(); // Create a function that closes this jframe to open another
+>>>>>>> da9356ff0f01a7b72997e021facb05a21cf48d53
               }
 
             public void mouseEntered(MouseEvent me) {
@@ -96,6 +116,10 @@ public class Login extends JFrame implements ActionListener {
             if (userText.getText().length() != 0 && passText.getText().length() != 0) {
                 new Dashboard();
             } else {
+<<<<<<< HEAD
+=======
+                JOptionPane.showMessageDialog(this, "Please Input a valid username and password.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+>>>>>>> da9356ff0f01a7b72997e021facb05a21cf48d53
                 return;
             }
         }
