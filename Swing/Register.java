@@ -1,7 +1,11 @@
+package Swing;
 import javax.lang.model.element.Element;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import Elements.HintTextField;
+
 import java.awt.Color;
 import java.awt.Font;
 
