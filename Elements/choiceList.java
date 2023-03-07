@@ -4,15 +4,22 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.management.modelmbean.ModelMBean;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
 import java.awt.event.*;
+import java.awt.*;
+
 
 import Events.navBarEventCallBack;
 import Events.navBarEventMenu;
 import Events.navBarEventSelected;
+import Swing.Dashboard;
 
 import java.util.List;
 
@@ -32,8 +39,10 @@ public class choiceList<E extends Object> extends JList<E> {
         setBackground(new Color(0, 0, 0, 0));
         setForeground(Color.WHITE);
         setFixedCellHeight(50);
+        setSelectionBackground(new Color(0, 0, 0, 0));
 
-
+        this.setCellRenderer((ListCellRenderer<? super E>) getRenderer());
+        
         model = new DefaultListModel();
         events = new ArrayList<navBarEventSelected>();
         
@@ -93,11 +102,40 @@ public class choiceList<E extends Object> extends JList<E> {
                     // This call back even run when animation is 
                     selectedIndex = index;
                     repaint();
+
+                    //Switch Pages
+                    switch (index) {
+                        case 0:
+                            Dashboard.mainPanel.setSelectedIndex(0);
+                        break;
+                        case 1:
+                            Dashboard.mainPanel.setSelectedIndex(1);
+                        break;
+                        case 2:
+                            Dashboard.mainPanel.setSelectedIndex(2);
+                        break;
+                        default:
+                        break;
+                    }
+                        
                 }
 
                 
             });
         }
         
+    }
+
+    private ListCellRenderer<? super String> getRenderer() {
+        return new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list,
+                    Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0,Color.BLACK));
+                return listCellRendererComponent;
+            }
+        };
     }
 }

@@ -1,7 +1,9 @@
 package Swing;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.event.MouseInputListener;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import Elements.choiceList;
 import Elements.navItem;
@@ -9,6 +11,7 @@ import Elements.navItem.MenuType;
 import Events.navBarEventCallBack;
 import Events.navBarEventMenu;
 import Events.navBarEventSelected;
+import Pages.*;
 
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
@@ -24,11 +27,17 @@ public class Dashboard extends JFrame {
 
 
 
-    JPanel menuBar, mainPanel;
+    JPanel menuBar;
+    public static JTabbedPane mainPanel;
     ProfileSection profileSect;
 
     sideNavMenu sidePanel;
     choiceList menuChoices;
+
+    //Pages
+    pageOne pageFinance;
+    pageTwo pageCommunity;
+    pageThree pageAbout;
 
     Dashboard() {
         this.setTitle("Application Dashboard");
@@ -42,7 +51,7 @@ public class Dashboard extends JFrame {
 
         
         
-
+        //Instantiate Menu Choices
         menuChoices = new choiceList();
         menuChoices.setBounds(10, 100, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .50));
         menuChoices.setFont(new Font("DIALOG", Font.BOLD, 16));
@@ -54,9 +63,30 @@ public class Dashboard extends JFrame {
         //End Naviationg
         
         //Main Panel Hold Pages
-        mainPanel = new JPanel();
-        mainPanel.setBounds(Login.getDimen(Dashboard.width, .24), 0, Login.getDimen(Dashboard.width, .75), (int) height);
+        mainPanel = new JTabbedPane();
+        mainPanel.setBounds(Login.getDimen(Dashboard.width, .25), -38, Login.getDimen(Dashboard.width, .77), (int) height);
         mainPanel.setBackground(Color.WHITE);
+
+        //Removes JTabbed Pain Styling
+        mainPanel.setUI(new BasicTabbedPaneUI() {
+            private final Insets borderInsets = new Insets(0, 0, 0, 0);
+            @Override
+            protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+            }
+            @Override
+            protected Insets getContentBorderInsets(int tabPlacement) {
+                return borderInsets;
+            }
+        });
+
+
+        pageFinance = new pageOne((int) width, (int) height);
+        pageCommunity = new pageTwo((int) width, (int) height);
+        pageAbout = new pageThree((int) width, (int) height);
+
+        mainPanel.add(pageFinance);
+        mainPanel.add(pageCommunity);
+        mainPanel.add(pageAbout);
 
 
         this.add(mainPanel);
@@ -90,9 +120,9 @@ class sideNavMenu extends JPanel{
     static ArrayList<navItem> buttonComp = new ArrayList<navItem>();
 
     int drawX = 170;
-    int drawY;
+    int drawY = -100;
     int TargetY;
-    private int speed = 2;
+    private int speed = 20;
 
     int selectedIndex = -1;
     int menuX = (int) Login.getDimen(Dashboard.width, .25), menuY = (int) Dashboard.width;
@@ -223,7 +253,6 @@ class sideNavMenu extends JPanel{
         //Moving Border Based on Selection
 
 
-       
         g2.fillRoundRect(drawX, drawY, 70, 60, 180, 180);
 
         //End
