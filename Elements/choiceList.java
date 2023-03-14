@@ -62,12 +62,15 @@ public class choiceList<E extends Object> extends JList<E> {
                             if (index != selectedIndex) {
                                 selectedIndex = -1;
                                 runEvent(index);
+                                switchPage(index);
                             }
                         }
                     } else {
                         if (index != selectedIndex) {
                             selectedIndex = -1;
                             runEvent(index);
+                            switchPage(index);
+                            
 
                         }
                     }
@@ -78,6 +81,26 @@ public class choiceList<E extends Object> extends JList<E> {
 
 
 
+    }
+
+    public void switchPage(int index){
+        //Switch Pages
+        switch (index) {
+            case 0:
+                Dashboard.mainPanel.setSelectedIndex(index);
+            break;
+            case 1:
+                Dashboard.mainPanel.setSelectedIndex(index);
+            break;
+            case 2:
+                Dashboard.mainPanel.setSelectedIndex(index);
+            break;
+            case 3:
+                Dashboard.mainPanel.setSelectedIndex(index);
+            break;
+            default:
+            break;
+        }
     }
 
     public void populate(ArrayList<E> items) {
@@ -103,20 +126,7 @@ public class choiceList<E extends Object> extends JList<E> {
                     selectedIndex = index;
                     repaint();
 
-                    //Switch Pages
-                    switch (index) {
-                        case 0:
-                            Dashboard.mainPanel.setSelectedIndex(0);
-                        break;
-                        case 1:
-                            Dashboard.mainPanel.setSelectedIndex(1);
-                        break;
-                        case 2:
-                            Dashboard.mainPanel.setSelectedIndex(2);
-                        break;
-                        default:
-                        break;
-                    }
+                    
                         
                 }
 

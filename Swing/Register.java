@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 
+
+
 import java.awt.event.*;
 
 public class Register extends JFrame implements ActionListener {  
@@ -67,6 +69,10 @@ public class Register extends JFrame implements ActionListener {
         });
 
 
+       
+    
+
+
 
         
         this.add(usrNmTxtFld);
@@ -76,6 +82,15 @@ public class Register extends JFrame implements ActionListener {
         this.add(crtAcBut);
         this.add(rtrnLgn);
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (e != null) {
+                    Login.closeRegistration();
+                }
+            }
+        });
+
 
         //Always at the bottom
         this.setVisible(true);
@@ -83,7 +98,11 @@ public class Register extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
+
+   
+   
+
+
 }

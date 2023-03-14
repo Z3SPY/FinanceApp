@@ -38,6 +38,7 @@ public class Dashboard extends JFrame {
     pageOne pageFinance;
     pageTwo pageCommunity;
     pageThree pageAbout;
+    pageFour pageAccount;
 
     Dashboard() {
         this.setTitle("Application Dashboard");
@@ -48,18 +49,20 @@ public class Dashboard extends JFrame {
         this.setLayout(null);
         this.getPreferredSize();
 
-
+        //Instantiate and Define Profile Section 
+        profileSect = new ProfileSection(width, height, sidePanel);
         
         
         //Instantiate Menu Choices
         menuChoices = new choiceList();
         menuChoices.setBounds(10, 100, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .50));
         menuChoices.setFont(new Font("DIALOG", Font.BOLD, 16));
-    
+        
        
         //Side Navigation Holds Profile and Menu
         sidePanel = new sideNavMenu(menuChoices);    
         sidePanel.add(menuChoices);
+        sidePanel.add(profileSect);
         //End Naviationg
         
         //Main Panel Hold Pages
@@ -83,10 +86,12 @@ public class Dashboard extends JFrame {
         pageFinance = new pageOne((int) width, (int) height);
         pageCommunity = new pageTwo((int) width, (int) height);
         pageAbout = new pageThree((int) width, (int) height);
+        pageAccount = new pageFour((int) width, (int) height);
 
         mainPanel.add(pageFinance);
         mainPanel.add(pageCommunity);
         mainPanel.add(pageAbout);
+        mainPanel.add(pageAccount);
 
 
         this.add(mainPanel);
@@ -99,13 +104,12 @@ public class Dashboard extends JFrame {
 
 class ProfileSection extends JPanel {
     
-    ProfileSection(int frameW, int frameH) {
-        this.setBounds(0, 0, Login.getDimen(frameW, .25), Login.getDimen(frameH, .17)); 
+    ProfileSection(float frameW, float frameH, sideNavMenu sideNavRef) {
+        this.setBounds(0, 10, Login.getDimen(frameW, .25) - 40, Login.getDimen(frameH, .13)); 
         this.setBackground(Color.yellow);
         this.setVisible(true);
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
-                System.out.println("Yo");
                 new profileFrame();
             }
         });
@@ -122,7 +126,7 @@ class sideNavMenu extends JPanel{
     int drawX = 170;
     int drawY = -100;
     int TargetY;
-    private int speed = 20;
+    private int speed = 50;
 
     int selectedIndex = -1;
     int menuX = (int) Login.getDimen(Dashboard.width, .25), menuY = (int) Dashboard.width;
@@ -154,7 +158,7 @@ class sideNavMenu extends JPanel{
 
                     System.out.println(toUp);
                     if (selectedIndex == -1) {
-                        speed = 20;
+                        speed = 50;
                     }  else {
                         speed = selectedIndex - index;
                         if (speed < 0) {
@@ -162,7 +166,7 @@ class sideNavMenu extends JPanel{
                         }
                      }
 
-                    speed++;
+                    speed+= 5;
                     selectedIndex = index;
                     TargetY = selectedIndex * 50 + List.getY();
                     if (!timer.isRunning()) {
@@ -172,7 +176,7 @@ class sideNavMenu extends JPanel{
             }
             
         });
-     
+
 
         timer = new Timer(0, new ActionListener() {
 
@@ -228,6 +232,7 @@ class sideNavMenu extends JPanel{
         buttonComp.add(new navItem("Finances", "Icon Sample", MenuType.MENU));
         buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
         buttonComp.add(new navItem("About", "Icon Sample", MenuType.MENU));
+        buttonComp.add(new navItem("Account", "Icon Sample", MenuType.MENU));
 
     }
 

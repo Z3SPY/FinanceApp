@@ -12,6 +12,9 @@ import Elements.HintTextField;
 import java.awt.Color;
 import java.awt.event.*;
 
+import java.sql.DriverManager;
+
+
 
 
 public class Login extends JFrame implements ActionListener {
@@ -21,7 +24,12 @@ public class Login extends JFrame implements ActionListener {
     JLabel registerLabel;
     JButton submit; 
     JPanel imagePanel, inputPanel;
+    static Boolean registration = false;
 
+    public static void closeRegistration() {
+        registration = false;
+        System.out.println(registration);
+    }
 
     public static int getDimen(float n, double d) {
         return (int) Math.round(n * d);
@@ -37,6 +45,7 @@ public class Login extends JFrame implements ActionListener {
     }
     
     Login() {
+        
         this.setTitle("Login Page");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,8 +53,11 @@ public class Login extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setLayout(null);
 
+        //Instantiates image Holder
+        imagePanel = new imgHolder(getDimen(width, .52), (int)height);
 
 
+        //Instantiates input Holder
         inputPanel = new JPanel();
         inputPanel.setLayout(null);
         inputPanel.setBounds(getDimen(width, .52), 0, getDimen(width, .45), (int)height);
@@ -71,8 +83,14 @@ public class Login extends JFrame implements ActionListener {
         registerLabel.setBounds(50, (getDimen(height, .05) * 4) + 10 * 1, getDimen(width, .35), getDimen(height, .05));
         registerLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
-                System.out.println("Yo");
-                new Register(); // Create a function that closes this jframe to open another
+
+                if (registration == false) {
+                    new Register(); // Create a function that closes this jframe to open another
+                    registration = true;
+                } else {
+                    System.out.println(registration);
+                }
+                
               }
 
             public void mouseEntered(MouseEvent me) {
@@ -92,6 +110,7 @@ public class Login extends JFrame implements ActionListener {
         inputPanel.add(submit);
         inputPanel.add(registerLabel);
 
+        this.add(imagePanel);
         this.add(inputPanel);
         
 
@@ -107,7 +126,8 @@ public class Login extends JFrame implements ActionListener {
 
         if (e.getSource() == submit) {
             if (userText.getText().length() != 0 && passText.getText().length() != 0) {
-                new Dashboard();
+                this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
             } else {
                 JOptionPane.showMessageDialog(this, "Please Input a valid username and password.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -116,5 +136,22 @@ public class Login extends JFrame implements ActionListener {
        
 
         //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+    }
+
+
+    class imgHolder extends JPanel {
+
+        int width, height;
+
+        imgHolder(int width, int height) {
+            //Define Class Variables
+            this.width = width;
+            this.height = height;
+
+            //Define JPanel
+            this.setBackground(Color.red);
+            this.setBounds(0, 0, this.width, this.height);
+        }
+        
     }
 }
