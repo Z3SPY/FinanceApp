@@ -43,7 +43,7 @@ public class Dashboard extends JFrame {
     Dashboard() {
         this.setTitle("Application Dashboard");
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize((int)width, (int)height);
         this.setLocationRelativeTo(null);
         this.setLayout(null);

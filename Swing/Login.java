@@ -1,4 +1,5 @@
 package Swing;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,20 +12,26 @@ import Elements.HintTextField;
 
 import java.awt.Color;
 import java.awt.event.*;
-
+import java.io.File;
+import java.io.IOException;
 import java.sql.DriverManager;
+import javax.swing.Timer;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics;
 
 
 
 
 public class Login extends JFrame implements ActionListener {
 
-    float width = 500, height = 700;
+    float width = 750, height = 700;
     JTextField passText, userText;
     JLabel registerLabel;
     JButton submit; 
     JPanel imagePanel, inputPanel;
     static Boolean registration = false;
+
+    String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png"};
 
     public static void closeRegistration() {
         registration = false;
@@ -54,13 +61,13 @@ public class Login extends JFrame implements ActionListener {
         this.setLayout(null);
 
         //Instantiates image Holder
-        imagePanel = new imgHolder(getDimen(width, .52), (int)height);
-
+        imagePanel = new imgHolder(getDimen(width, .58), (int)height);
+        ((imgHolder) imagePanel).setImage(imageString);
 
         //Instantiates input Holder
         inputPanel = new JPanel();
         inputPanel.setLayout(null);
-        inputPanel.setBounds(getDimen(width, .52), 0, getDimen(width, .45), (int)height);
+        inputPanel.setBounds(getDimen(width, .58), 0, getDimen(width, .40), (int)height);
         inputPanel.setBackground(Color.GREEN);
 
         //Username Text Field
@@ -143,15 +150,174 @@ public class Login extends JFrame implements ActionListener {
 
         int width, height;
 
+        private BufferedImage image[];
+
+        Timer animateAgain;
+        boolean animateRight;
+        Timer animTimer;
+        int delay = 2;
+        int curTime = 0;
+
+        int imageWidth = this.width;
+        int imageHeigth = this.height;
+        int offSet[];
+        //Positional Calculation
+        // if in 0 position = stationary, -width = previous, width = next;
+        int imgPovPrev;
+        int imgPovPres;
+        int imgPovNext;
+        int cur;
+        boolean started = false;
+
+
+        int Count;
         imgHolder(int width, int height) {
             //Define Class Variables
             this.width = width;
             this.height = height;
+            Count = 0;
+
+            //Animation Values
+            offSet = new int[]{-this.width, 0, this.width};
+            
+            imgPovPrev = offSet[0];
+            imgPovPres = offSet[1];
+            imgPovNext = offSet[2];
+            this.animateRight = false;
 
             //Define JPanel
-            this.setBackground(Color.red);
+            this.setBackground(Color.black);
             this.setBounds(0, 0, this.width, this.height);
+
+            animTimer = new Timer(10, new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int speed= 10;
+                    
+                    if (animateRight) {
+                        imgPovPrev += speed;
+                        imgPovPres += speed;
+                        imgPovNext += speed;
+
+                        //Is called When Initiliazing Value
+                        if (cur == 0 && started == false) {
+                            cur = imgPovNext;
+                            started = true;
+                            Count++;
+                        }
+                        cur += speed;
+                        if (cur > offSet[2] + width + 5) {
+                            animateRight = false;
+                            System.out.print(" Cur: " + imgPovPres + " Prev: " + imgPovPrev + " Next: " + imgPovNext + " ");
+                            System.out.println("The Current "+ cur);
+                            System.out.println("The Count "+ Count);
+
+                            //Checks if Image has looped, if it has looped we change the cur value reference
+                           switch (Count) {
+                                case 0: 
+                                    //cur = imgPovPrev;
+                                    cur = imgPovNext;
+                                    Count++;
+                                    System.out.println("0");
+                                    break;
+                                case 1:
+                                    //cur = imgPovNext;
+                                    cur = imgPovPres;
+                                    System.out.println("1");
+                                    Count++;
+                                    break;
+                                case 2:
+                                    //cur = imgPovPres;
+                                    cur = imgPovPrev;
+                                    System.out.println("2");
+                                    Count++;
+                                    break;
+                                default:
+                                    break;
+                           }
+
+                           if (Count >= 3) {
+                                Count = 0;
+                           }
+
+                        }
+
+                        if (imgPovPres >= offSet[2] + width) {
+                            imgPovPres = offSet[0];
+
+                        }
+
+                        if (imgPovNext >= offSet[2] + width) {
+                            imgPovNext = offSet[0] - 4;
+
+                        }
+
+                        if (imgPovPrev >= offSet[2] + width) {
+                            imgPovPrev = offSet[0] - 4;
+
+                        }
+
+                    } 
+
+
+                    repaint();
+
+                }
+                
+            });
+
+
+            animateAgain = new Timer(1000, new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    curTime++;
+                    System.out.print(curTime);
+
+                    if (curTime >= delay) {
+                        curTime = 0;
+                        animateRight = true;
+                        animTimer.start();
+                    }
+                }
+                
+            });
+
+            if (this.animateRight == false) {
+                this.animateRight = true;
+                animateAgain.start();
+                System.out.print("starting");
+            } 
+            
         }
-        
+
+    
+        public void setImage(String imgString[]) {
+            
+            int n = imgString.length;
+            image = new BufferedImage[n];
+            try {
+                for (int i = 0; i < n; i++) {
+                    this.image[i] = ImageIO.read(new File(imgString[i]));
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+
+
+        } 
+
+
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            g.drawImage(this.image[0], imgPovPrev, 0, this.width, this.height, this);
+            g.drawImage(this.image[1], imgPovPres, 0, this.width, this.height, this);
+            g.drawImage(this.image[2], imgPovNext, 0, this.width, this.height, this);
+
+        }        
     }
 }
