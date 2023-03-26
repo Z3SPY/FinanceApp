@@ -1,4 +1,5 @@
 package Swing;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -50,12 +51,12 @@ public class Dashboard extends JFrame {
         this.getPreferredSize();
 
         //Instantiate and Define Profile Section 
-        profileSect = new ProfileSection(width, height, sidePanel);
+        profileSect = new ProfileSection(width - 80, height, sidePanel);
         
         
         //Instantiate Menu Choices
         menuChoices = new choiceList();
-        menuChoices.setBounds(10, 100, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .50));
+        menuChoices.setBounds(25, 125, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .50));
         menuChoices.setFont(new Font("DIALOG", Font.BOLD, 16));
         
        
@@ -65,9 +66,9 @@ public class Dashboard extends JFrame {
         sidePanel.add(profileSect);
         //End Naviationg
         
-        //Main Panel Hold Pages
+        //Main Panel Holds Pages
         mainPanel = new JTabbedPane();
-        mainPanel.setBounds(Login.getDimen(Dashboard.width, .25), -38, Login.getDimen(Dashboard.width, .77), (int) height);
+        mainPanel.setBounds(Login.getDimen(Dashboard.width, .22), -38, Login.getDimen(Dashboard.width, .77), (int) height);
         mainPanel.setBackground(Color.WHITE);
 
         //Removes JTabbed Pain Styling
@@ -123,17 +124,23 @@ class sideNavMenu extends JPanel{
 
     static ArrayList<navItem> buttonComp = new ArrayList<navItem>();
 
-    int drawX = 170;
+    int drawX = 140;
     int drawY = -100;
     int TargetY;
     private int speed = 50;
+    int basePos = 0; // Animation Bar Text
+    Boolean startSequence = false;
+    Boolean hideAnim = false;
 
     int selectedIndex = -1;
-    int menuX = (int) Login.getDimen(Dashboard.width, .25), menuY = (int) Dashboard.width;
+    int menuX = (int) Login.getDimen(Dashboard.width, .22), menuY = (int) Dashboard.width;
     boolean toUp;
 
     Timer timer;
+    Timer basePosTimer;
     int timerCheck = 0;
+    int basePosChecker = 0;
+
     private navBarEventCallBack callBack;
     private navBarEventMenu event;
     private choiceList List;
@@ -166,11 +173,12 @@ class sideNavMenu extends JPanel{
                         }
                      }
 
-                    speed+= 5;
+                    speed += 5;
                     selectedIndex = index;
                     TargetY = selectedIndex * 50 + List.getY();
                     if (!timer.isRunning()) {
                         timer.start();
+                        basePosTimer.start();
                     }
                 } 
             }
@@ -182,7 +190,9 @@ class sideNavMenu extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
+
+
                 if (toUp) {
                     if (drawY <= TargetY - 5) {
                         drawY = TargetY;
@@ -192,8 +202,11 @@ class sideNavMenu extends JPanel{
                         if (event != null) {
                             event.menuIndexChange(selectedIndex);
                         }
+
+
                     } else {
-                        drawY -= speed;
+                        startSequence = true;
+                        drawY -= speed * 1.56;
                         repaint();
                     }
                 } 
@@ -206,8 +219,11 @@ class sideNavMenu extends JPanel{
                         if(event != null) {
                             event.menuIndexChange(selectedIndex);
                         }
+
+
                     } else {
-                        drawY += speed;
+                        startSequence = true;
+                        drawY += speed * 1.56;
                         repaint();
                     }
 
@@ -221,6 +237,55 @@ class sideNavMenu extends JPanel{
 
             }
         });
+
+        basePosChecker = 0;
+        basePosTimer = new Timer(0, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 //BasePos Checker
+                if (basePos > 0) {
+                    basePos = 0;
+                } else if (basePos < -5) {
+                    basePos = -5;
+                }
+
+                if (hideAnim == true) {
+                    basePos -= 1;
+                    repaint();
+                    System.out.print("y");  
+                } else if (hideAnim == false && basePos != 0) {
+                    basePos += 1;
+                    if (basePos == 0) {
+                        startSequence = false;
+                        basePosTimer.stop();
+                    }
+                    repaint();
+                    System.out.print("f");
+                }
+
+                if (startSequence == true) {
+                    if (basePos == 0 && hideAnim == false) {
+                       hideAnim = true;
+                    }
+
+                    if (basePos == -5 && hideAnim == true) {
+                        hideAnim = false;
+                    }
+                }
+               
+                
+
+                basePosChecker += 1;
+                if (basePosChecker > 1000) {
+                    basePosTimer.stop();                    
+                    basePos = 0;
+                    repaint();
+                }
+            }}
+        );
+
+
 
         initComp();
         this.List.populate(buttonComp);
@@ -256,9 +321,16 @@ class sideNavMenu extends JPanel{
         
         
         //Moving Border Based on Selection
+        g2.fillRoundRect(drawX, drawY, 70, 60, 180, 180); // Round Tip
 
 
-        g2.fillRoundRect(drawX, drawY, 70, 60, 180, 180);
+        g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFFFFF")); //Square Surronding Text
+        g2.setPaint(g);
+        g2.fillRect(5, drawY + 4, 165, 50);
+        
+
+        g2.setPaint(Color.white);//Base Selection
+        g2.fillRect(basePos, drawY + 4, 10, 50);
 
         //End
 

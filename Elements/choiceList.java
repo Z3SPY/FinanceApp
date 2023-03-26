@@ -39,7 +39,8 @@ public class choiceList<E extends Object> extends JList<E> {
         setBackground(new Color(0, 0, 0, 0));
         setForeground(Color.WHITE);
         setFixedCellHeight(50);
-        setSelectionBackground(new Color(0, 0, 0, 0));
+        setSelectionBackground(new Color(0, 0, 0, 0)); //Makes Selected Background Opaque
+        setSelectionForeground(Color.BLUE); // Makes Selected Text Blue
 
         this.setCellRenderer((ListCellRenderer<? super E>) getRenderer());
         
@@ -85,22 +86,8 @@ public class choiceList<E extends Object> extends JList<E> {
 
     public void switchPage(int index){
         //Switch Pages
-        switch (index) {
-            case 0:
-                Dashboard.mainPanel.setSelectedIndex(index);
-            break;
-            case 1:
-                Dashboard.mainPanel.setSelectedIndex(index);
-            break;
-            case 2:
-                Dashboard.mainPanel.setSelectedIndex(index);
-            break;
-            case 3:
-                Dashboard.mainPanel.setSelectedIndex(index);
-            break;
-            default:
-            break;
-        }
+        Dashboard.mainPanel.setSelectedIndex(index);
+
     }
 
     public void populate(ArrayList<E> items) {

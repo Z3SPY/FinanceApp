@@ -135,6 +135,7 @@ public class Login extends JFrame implements ActionListener {
             if (userText.getText().length() != 0 && passText.getText().length() != 0) {
                 this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
+                imgHolder.animateAgain.stop();
             } else {
                 JOptionPane.showMessageDialog(this, "Please Input a valid username and password.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -152,10 +153,10 @@ public class Login extends JFrame implements ActionListener {
 
         private BufferedImage image[];
 
-        Timer animateAgain;
+        static Timer animateAgain;
         boolean animateRight;
         Timer animTimer;
-        int delay = 2;
+        int delay = 8;
         int curTime = 0;
 
         int imageWidth = this.width;
@@ -207,7 +208,7 @@ public class Login extends JFrame implements ActionListener {
                             Count++;
                         }
                         cur += speed;
-                        if (cur > offSet[2] + width + 5) {
+                        if (cur >  offSet[2] + width ) { // offSet[2] + width + 5
                             animateRight = false;
                             System.out.print(" Cur: " + imgPovPres + " Prev: " + imgPovPrev + " Next: " + imgPovNext + " ");
                             System.out.println("The Current "+ cur);
@@ -249,12 +250,12 @@ public class Login extends JFrame implements ActionListener {
                         }
 
                         if (imgPovNext >= offSet[2] + width) {
-                            imgPovNext = offSet[0] - 4;
+                            imgPovNext = offSet[0] ;
 
                         }
 
                         if (imgPovPrev >= offSet[2] + width) {
-                            imgPovPrev = offSet[0] - 4;
+                            imgPovPrev = offSet[0];
 
                         }
 
