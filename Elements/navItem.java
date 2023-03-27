@@ -12,6 +12,7 @@ public class navItem {
 
     String navText;
     String navIcon;
+    String selectedIcon;
     MenuType type;
     
     public MenuType getType() {

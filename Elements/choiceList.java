@@ -10,9 +10,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 
 import java.awt.event.*;
+import java.lang.annotation.Native;
 import java.awt.*;
 
 
@@ -30,7 +32,7 @@ public class choiceList<E extends Object> extends JList<E> {
         events.add(event);
     }
 
-    private final DefaultListModel model;
+    private final DefaultListModel<navItem> model;
     private final List<navBarEventSelected> events;
     private int selectedIndex =  -1;
     
@@ -44,24 +46,25 @@ public class choiceList<E extends Object> extends JList<E> {
 
         this.setCellRenderer((ListCellRenderer<? super E>) getRenderer());
         
-        model = new DefaultListModel();
+        model = new DefaultListModel<navItem>();
         events = new ArrayList<navBarEventSelected>();
         
         
         
 
-        super.setModel(model);
+        super.setModel((ListModel<E>) model);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (SwingUtilities.isLeftMouseButton(me)) {
                     int index = locationToIndex(me.getPoint());
                     Object obj = model.getElementAt(index);
+                    System.out.println(obj);
                     if (obj instanceof navItem) {
                         navItem data = (navItem) obj;
                         if (data.getType() == navItem.MenuType.MENU) {
                             if (index != selectedIndex) {
-                                selectedIndex = -1;
+                                System.out.print("o");
                                 runEvent(index);
                                 switchPage(index);
                             }
@@ -69,8 +72,8 @@ public class choiceList<E extends Object> extends JList<E> {
                     } else {
                         if (index != selectedIndex) {
                             selectedIndex = -1;
-                            runEvent(index);
-                            switchPage(index);
+                            //runEvent(index);
+                            //switchPage(index);
                             
 
                         }
@@ -86,7 +89,14 @@ public class choiceList<E extends Object> extends JList<E> {
 
     public void switchPage(int index){
         //Switch Pages
-        Dashboard.mainPanel.setSelectedIndex(index);
+        switch (index) {
+            case 0, 1, 2, 3:
+                Dashboard.mainPanel.setSelectedIndex(index);
+                break;
+            default:
+                Dashboard.mainPanel.setSelectedIndex(1);
+                break;
+        }
 
     }
 
@@ -96,7 +106,7 @@ public class choiceList<E extends Object> extends JList<E> {
             ArrayList<navItem> choiceList = (ArrayList<navItem>) items;
 
             for (navItem n : choiceList) {
-                model.addElement(((Elements.navItem) n).getNavText());
+                model.addElement(((Elements.navItem) n));
             }
         }
 
@@ -129,10 +139,27 @@ public class choiceList<E extends Object> extends JList<E> {
             public Component getListCellRendererComponent(JList<?> list,
                     Object value, int index, boolean isSelected,
                     boolean cellHasFocus) {
+
+                if (value instanceof navItem) {
+                    navItem temp = (navItem) value;
+                    value = temp.getNavText();
+
+                    if (isSelected) {
+                    } //Create a class
+                }
                 JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
                 listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0,Color.BLACK));
                 return listCellRendererComponent;
             }
         };
+    }
+
+ 
+    public void switchPageGlobal(int index) {
+        if (index != selectedIndex) {
+            System.out.print("o");
+            runEvent(index);
+            switchPage(index);
+        }
     }
 }

@@ -50,18 +50,24 @@ public class Dashboard extends JFrame {
         this.setLayout(null);
         this.getPreferredSize();
 
-        //Instantiate and Define Profile Section 
-        profileSect = new ProfileSection(width - 80, height, sidePanel);
-        
-        
+
+
+
+
+
         //Instantiate Menu Choices
         menuChoices = new choiceList();
-        menuChoices.setBounds(25, 125, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .50));
+        menuChoices.setBounds(25, 125, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .90));
         menuChoices.setFont(new Font("DIALOG", Font.BOLD, 16));
+
+
+        //Instantiate and Define Profile Section 
+        profileSect = new ProfileSection(width - 80, height, sidePanel, menuChoices);
         
-       
+        
         //Side Navigation Holds Profile and Menu
         sidePanel = new sideNavMenu(menuChoices);    
+        sidePanel.setBounds(0, 0, Login.getDimen(Dashboard.width, .23), (int) height);
         sidePanel.add(menuChoices);
         sidePanel.add(profileSect);
         //End Naviationg
@@ -105,13 +111,14 @@ public class Dashboard extends JFrame {
 
 class ProfileSection extends JPanel {
     
-    ProfileSection(float frameW, float frameH, sideNavMenu sideNavRef) {
+    ProfileSection(float frameW, float frameH, sideNavMenu sideNavRef, choiceList choiceListRef) {
         this.setBounds(0, 10, Login.getDimen(frameW, .25) - 40, Login.getDimen(frameH, .13)); 
         this.setBackground(Color.yellow);
         this.setVisible(true);
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
-                new profileFrame();
+                choiceListRef.switchPageGlobal(8);
+                //new profileFrame();
             }
         });
     }
@@ -206,7 +213,7 @@ class sideNavMenu extends JPanel{
 
                     } else {
                         startSequence = true;
-                        drawY -= speed * 1.56;
+                        drawY -= speed * 2;
                         repaint();
                     }
                 } 
@@ -223,7 +230,7 @@ class sideNavMenu extends JPanel{
 
                     } else {
                         startSequence = true;
-                        drawY += speed * 1.56;
+                        drawY += speed * 2;
                         repaint();
                     }
 
@@ -246,17 +253,24 @@ class sideNavMenu extends JPanel{
                  //BasePos Checker
                 if (basePos > 0) {
                     basePos = 0;
+                    drawX = 140;
                 } else if (basePos < -5) {
                     basePos = -5;
+                    drawX = 100;
                 }
 
                 if (hideAnim == true) {
                     basePos -= 1;
+                    drawX -= 4;
+
                     repaint();
                     System.out.print("y");  
                 } else if (hideAnim == false && basePos != 0) {
                     basePos += 1;
+                    drawX += 4;
                     if (basePos == 0) {
+                        basePosChecker = 0;
+                        drawX = 140;
                         startSequence = false;
                         basePosTimer.stop();
                     }
@@ -296,8 +310,13 @@ class sideNavMenu extends JPanel{
     public void initComp() {
         buttonComp.add(new navItem("Finances", "Icon Sample", MenuType.MENU));
         buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
+        buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
+        buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
         buttonComp.add(new navItem("About", "Icon Sample", MenuType.MENU));
-        buttonComp.add(new navItem("Account", "Icon Sample", MenuType.MENU));
+        buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
+        buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
+        buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
+        buttonComp.add(new navItem("Profile", "Icon Sample", MenuType.MENU));
 
     }
 
@@ -326,7 +345,8 @@ class sideNavMenu extends JPanel{
 
         g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFFFFF")); //Square Surronding Text
         g2.setPaint(g);
-        g2.fillRect(5, drawY + 4, 165, 50);
+        g2.fillRoundRect(5, drawY + 4, 165, 50, 30, 30); // Round Tip
+
         
 
         g2.setPaint(Color.white);//Base Selection

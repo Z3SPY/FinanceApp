@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -117,6 +121,7 @@ public class pageOne extends JPanel{
 
         card JTableCard = new card(10, 300, tblCrdW, tblCrdH, Color.BLUE);
 
+
         //JTabel End
 
         //Graph
@@ -125,6 +130,7 @@ public class pageOne extends JPanel{
         int grphCrdH = 300;
 
         card graphCard = new card(tblCrdW + 30 , 300, grphCrdW, grphCrdH, Color.BLUE);
+            
 
         
 
@@ -141,6 +147,20 @@ public class pageOne extends JPanel{
        
         
     
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        int w = getWidth(), h = getHeight();
+        Color color1 = new Color(237,241,214);
+        Color color2 = new Color(157,192,139);
+        GradientPaint gp = new GradientPaint(w/2, 0, color1, w/2, h, color2);
+        g2d.setPaint(gp);
+        g2d.fillRect(0, 0, w, h);
+        //future references RGB(96, 153, 102) || RGB(64, 81, 59)
     }
 }
 
