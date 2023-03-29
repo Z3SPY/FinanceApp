@@ -27,7 +27,6 @@ public class Dashboard extends JFrame {
     public static float height = 650;
 
 
-
     JPanel menuBar;
     public static JTabbedPane mainPanel;
     ProfileSection profileSect;
@@ -213,7 +212,7 @@ class sideNavMenu extends JPanel{
 
                     } else {
                         startSequence = true;
-                        drawY -= speed * 2;
+                        drawY -= speed * 1.5;
                         repaint();
                     }
                 } 
@@ -230,7 +229,7 @@ class sideNavMenu extends JPanel{
 
                     } else {
                         startSequence = true;
-                        drawY += speed * 2;
+                        drawY += speed * 1.5;
                         repaint();
                     }
 

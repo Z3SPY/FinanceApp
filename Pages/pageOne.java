@@ -43,14 +43,14 @@ public class pageOne extends JPanel{
         Balance = 1000.00;
 
         //Balance Card
-        int bCrdW = 250;
-        int bCrdH = 125;
+        int bCrdW = 250; // Balance Card Width
+        int bCrdH = 125; // Balance Card Height
         
 
         card balanceCard = new card(10, 25, bCrdW, bCrdH, Color.BLUE);
 
             //Balance Title Holder
-            balLabel = new JLabel("Total Balance");
+            balLabel = new JLabel("Total Balance"); // Balance Label
 
             balanceCard.setInnerCard(30, 30); // Set This First Before Deginig Card
             balanceCard.CreateCard(0, 0, bCrdW, Login.getDimen(bCrdH, .50), Color.red); // Index 0
@@ -79,8 +79,8 @@ public class pageOne extends JPanel{
 
 
         //Net Profit Card
-        int netCrdW = 250;
-        int netCrdH = 125;
+        int netCrdW = 250; // Net Profit Card Width
+        int netCrdH = 125; // Net Profit Card Height
         
 
         card netCard = new card(10, 160, bCrdW, bCrdH, Color.BLUE);
@@ -116,8 +116,8 @@ public class pageOne extends JPanel{
 
 
         //Jtable Portion
-        int tblCrdW = 250;
-        int tblCrdH = 300;
+        int tblCrdW = 250; // Table Card Width
+        int tblCrdH = 300; // Table Card Height
 
         card JTableCard = new card(10, 300, tblCrdW, tblCrdH, Color.BLUE);
 
