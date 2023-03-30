@@ -17,8 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
-import com.mysql.cj.x.protobuf.MysqlxNotice.Frame.Scope;
-import com.mysql.cj.xdevapi.JsonArray;
+//import com.mysql.cj.x.protobuf.MysqlxNotice.Frame.Scope;
+//import com.mysql.cj.xdevapi.JsonArray;
 import javax.swing.JLayeredPane;
 
 import Elements.card;
