@@ -157,7 +157,7 @@ public class pageOne extends JPanel{
         JPanel gfPanel = graphCard.getPanel(0);
         gfPanel.add(graphLabel);
         
-        
+        // please add changes to size of jchart or the card 
         graphCard.setInnerCard(15, 15); // Set This First Before Deginig Card - border-radius
         graphCard.CreateCard(0, Login.getDimen(grphCrdH, .10), grphCrdW, Login.getDimen(grphCrdH, .90), new Color(96, 153, 102)); // Index 0  // card sa loob ng card
             
@@ -183,7 +183,6 @@ public class pageOne extends JPanel{
         this.add(netCard);
         this.add(JTableCard);
         this.add(graphCard);
- 
         this.setVisible(true);
 
 
