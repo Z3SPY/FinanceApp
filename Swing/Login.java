@@ -76,6 +76,8 @@ public class Login extends JFrame implements ActionListener {
         inputPanel.setLayout(null);
         inputPanel.setBounds(getDimen(width, .58), 0, getDimen(width, .40), (int)height);
         inputPanel.setBackground(colorScheme[0]);
+        inputPanel.setFocusable(true);
+        inputPanel.requestFocus();
 
         //Username Text Field
         userText = new HintTextField("  Username");
@@ -98,16 +100,30 @@ public class Login extends JFrame implements ActionListener {
         //Set Desgin
         passText.setBackground(colorScheme[1]);
         passText.setForeground(colorScheme[3]);
-        
+
 
 
         //Login Button
         submit = new JButton("LOGIN");
         submit.setBounds(20, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .35), getDimen(height, .05));
         submit.addActionListener(this);
-
         submit.setBackground(colorScheme[2]);
         submit.setForeground(colorScheme[3]);
+
+
+        //Keylistener for Enter Key
+        KeyListener listener =  new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    submit.doClick();
+                }
+            }
+        };
+
+        submit.addKeyListener(listener);
+        passText.addKeyListener(listener);
+        userText.addKeyListener(listener);
 
         submit.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent me) {
@@ -146,6 +162,14 @@ public class Login extends JFrame implements ActionListener {
             }
         });
 
+        inputPanel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    submit.doClick();
+                }
+            }
+        });
 
         //Adding to panel
         inputPanel.add(passText);
