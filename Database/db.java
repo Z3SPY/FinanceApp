@@ -13,6 +13,8 @@ public class db {
 
     public static void main(String[] args) {
 
+
+
         /* try( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
             Statement stmt = conn.createStatement();
         ) {
