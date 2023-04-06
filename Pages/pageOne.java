@@ -1,17 +1,474 @@
 package Pages;
 
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+import javax.xml.crypto.Data;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.Dataset;
+import org.jfree.data.general.DefaultPieDataset;
+
+import Database.transaction;
+
+
+//import com.mysql.cj.log.Log;
+
+import Elements.card;
 import Swing.Login;
+import Swing.valueFrame;
+import Swing.valueFrame.trnsType;
 
 public class pageOne extends JPanel{
+	
+	//Font
+	Font myFont = new Font("Georgia", Font.BOLD, 23);
+
+    //Balance Card Values 
+    JLabel balLabel;
+    static JLabel balCounter;
+    
+    static Double Balance = 0.00;
+    static String balanceString;
+
+    //Net Profit Values
+    JLabel netLabel;
+    JLabel netCounter;
+
+    Double netProfit = 0.00;
+    String netProfitString;
+
+    //JTable
+    static JTable conttable; 
+    private static Map<Swing.valueFrame.trnsType, Integer> graphVal;
+
+    //Free Chart
+    static JFreeChart chart;
+    static DefaultPieDataset dataset;
+    
+    //Some JLabel
+    JLabel graphLabel;
+
+    //Selection Value
+    static Boolean trnsctSelect = false;
+    static List<transaction> tableData =  new ArrayList<transaction>();
+
+
 
     public pageOne(int width, int height) {
-        this.setBackground(Color.BLUE);
+        this.setBackground(Color.WHITE);
         this.setBounds(Login.getDimen(width, .23), 0, Login.getDimen(width, .75), (int) height);
+        this.setLayout(null);
+
+        Balance = 1000.00;
+
+        //Balance Card
+        //#region
+        int bCrdW = 210; // Balance Card Width
+        int bCrdH = 125; // Balance Card Height
+        
+        // x , y, width, height, color of panel ( parameter of card )
+        card balanceCard = new card(10, 25, bCrdW, bCrdH, new Color(64, 81, 59));
+
+            //Balance Title Holder
+            balLabel = new JLabel("Total Balance"); // Balance Label
+            balLabel.setForeground(Color.white);
+            balLabel.setFont(myFont);
+           
+
+            balanceCard.setInnerCard(15, 15); // Set This First Before Deginig Card - border-radius
+            balanceCard.CreateCard(0, 0, bCrdW, Login.getDimen(bCrdH, .50), new Color(64, 81, 59)); // Index 0  // card sa loob ng card
+
+                
+            JPanel tBC = balanceCard.getPanel(0);
+            tBC.add(balLabel);
+
+
+            //Balance Value Holder
+            balanceString = String.format("%.2f PHP",Balance);
+            balCounter = new JLabel(balanceString);
+            balCounter.setFont(new Font("Serif", Font.BOLD, 24));
+            balCounter.setBounds(Login.getDimen(bCrdW, .22), 25, bCrdW, Login.getDimen(bCrdH, .20));
+            
+            balanceCard.setInnerCard(30, 0); // Set This First Before Deginig Card
+            balanceCard.CreateCard(0, Login.getDimen(bCrdH, .37) , bCrdW, Login.getDimen(bCrdH, .63), new Color(96, 153, 102)); // Index 1
+
+            JPanel vBC = balanceCard.getPanel(1);
+            vBC.setLayout(null);
+            vBC.add(balCounter);
+
+            
+        //#endregion
+        //Balance Card End
+
+
+        //Net Profit Card
+        //#region
+        int netCrdW = 210; // Net Profit Card Width
+        int netCrdH = 125; // Net Profit Card Height
+        
+
+        card netCard = new card(10, 160, bCrdW, bCrdH, Color.GREEN);
+
+            //Net Profit Title Holder
+            netLabel = new JLabel("Net Profit");
+            netLabel.setForeground(Color.white);
+            netLabel.setFont(myFont);
+
+            netCard.setInnerCard(15, 15); // Set This First Before Deginig Card
+            netCard.CreateCard(0, 0, netCrdW, Login.getDimen(netCrdH, .50), new Color(64, 81, 59)); // Index 0
+
+                
+            JPanel tNC = netCard.getPanel(0);
+            tNC.add(netLabel);
+
+
+            //Net Profit Value Holder
+            netProfitString = String.format("%10.2f PHP",netProfit);
+            netCounter = new JLabel(netProfitString);
+            netCounter.setFont(new Font("Serif", Font.BOLD, 24));
+            netCounter.setBounds(Login.getDimen(netCrdW, .22), 25, netCrdW, Login.getDimen(netCrdH, .20));
+            
+            netCard.setInnerCard(30, 0); // Set This First Before Deginig Card
+            netCard.CreateCard(0, Login.getDimen(netCrdH, .37) , netCrdW, Login.getDimen(netCrdH, .63), new Color(96, 153, 102)); // Index 1
+
+            JPanel vNC = netCard.getPanel(1);
+            vNC.setLayout(null);
+            vNC.add(netCounter);
+
+            
+        //#endregion
+        //Net Profit Card
+
+
+
+       //Jtable Portion
+        //#region
+       int tblCrdW = 740;
+       int tblCrdH = 200;
+
+       //Table Value Start
+
+       String tablecolumn[] = {"Transaction ID","Amount", "Date", "Transaction Type", "From"};
+        
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.ACTIVITIES));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.ACTIVITIES));
+
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.ACTIVITIES));
+
+
+       DefaultTableModel tableModel = new DefaultTableModel(twoDimenArray(tableData), tablecolumn) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+       conttable = new JTable(tableModel);
+
+       //Table Value End
+
+
+
+
+       card JTableCard = new card(10, 300, tblCrdW, tblCrdH, Color.GREEN);
+       JTableCard.CreateCard(0,0,tblCrdW,tblCrdH, Color.WHITE);//index 0
+       JTableCard.getPanel(0).setLayout(null);
+       JScrollPane sp=new JScrollPane(conttable);
+       JLabel historyLabel = new JLabel("Transaction History");
+
+
+//        conttable.setBounds(10,100,190,400);
+
+
+       conttable.setOpaque(false);
+       ((DefaultTableCellRenderer)conttable.getDefaultRenderer(Object.class)).setOpaque(false);
+       conttable.setForeground(Color.black);
+       sp.setOpaque(false);
+       sp.getViewport().setOpaque(false);
+
+
+       resizeColumnWidth(conttable);
+       sp.setBounds(0,0,tblCrdW,tblCrdH);
+       JTableCard.getPanel(0).add(historyLabel);
+       JTableCard.getPanel(0).add(sp);
+
+
+       //Transaction Logic
+       JButton addTransBttn = new JButton("Create Transaction");
+       addTransBttn.setBounds(150, 525, 500, 70);
+
+            addTransBttn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    
+                    if (trnsctSelect == false) {
+                        selectionState(true);
+                        new valueFrame();                        
+                    }
+
+
+                }
+            });
+
+
+
+
+       //Transaction Logic End
+
+
+
+
+       this.add(addTransBttn);
+
+       //#endregion
+       //JTabel End
+
+
+
+
+
+
+       
+        //Graph
+        //#region
+
+        int grphCrdW = 510;
+        int grphCrdH = 260;
+
+        card graphCard = new card(bCrdW + 30 , 25, grphCrdW, grphCrdH, Color.BLUE);
+        graphCard.setInnerCard(15, 15); // Set This First Before Deginig Card - border-radius
+        graphCard.CreateCard(0, 0, grphCrdW, Login.getDimen(grphCrdH, .20), new Color(64, 81, 59)); // Index 0  // card sa loob ng card
+        
+        //NAME OF GRAPH
+        graphLabel = new JLabel("Finance Graph"); 
+        graphLabel.setForeground(Color.white);
+        graphLabel.setFont(myFont);
+        
+        JPanel gfPanel = graphCard.getPanel(0);
+        gfPanel.add(graphLabel);
+        //End Name
+
+
+        // please add changes to size of jchart or the card 
+        graphCard.setInnerCard(15, 15); // Set This First Before Deginig Card - border-radius
+        graphCard.CreateCard(0, Login.getDimen(grphCrdH, .10), grphCrdW, Login.getDimen(grphCrdH, .90), new Color(96, 153, 102)); // Index 1  // card sa loob ng card
+        JPanel graphPanel = graphCard.getPanel(1);
+        graphPanel.setLayout(null);
+
+
+        //Values Update
+        dataset = new DefaultPieDataset();
+        graphVal = new HashMap<>();  // For our Hash Map variables
+        updateGraph(dataset);
+
+        
+        
+        chart = ChartFactory.createPieChart("", dataset, true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setBounds(0, 25, grphCrdW,Login.getDimen(grphCrdH, .80));
+        
+
+        graphPanel.add(chartPanel);
+        
+        //#endregion
+        //Graph End
+
+        
+        this.add(balanceCard);
+        this.add(netCard);
+        this.add(JTableCard);
+        this.add(graphCard);
+        this.setVisible(true);
+
+
+       
+        
+    
+    }
+
+
+    //Update Values of Graph
+    public static void updateGraph(DefaultPieDataset data) {
+
+        Swing.valueFrame.trnsType[] stateTransaction = {trnsType.ACTIVITIES, 
+            trnsType.BUSINESS, 
+            trnsType.FOOD,
+            trnsType.MISC,
+            trnsType.BANK,
+            trnsType.HOBBIES,
+            trnsType.EXPENSES,
+            trnsType.UTILITIES};
+
+
+        
+        graphVal.clear(); // Cleans out Hash map
+    
+
+        for (transaction t: tableData) {
+
+            Swing.valueFrame.trnsType dataType = t.getType();
+
+            if (!graphVal.containsKey(dataType)) {
+                graphVal.put(dataType, 0); // Hash Map with Key so that we can keep track of our graph values
+                System.out.print("yo");
+            } 
+
+            graphVal.put(dataType, graphVal.get(dataType) + 1);
+
+            System.out.println(dataType + ": " + graphVal.get(dataType));
+
+        }        
+
+
+        for (int i = 0; i < stateTransaction.length; i++) {
+            if (graphVal.containsKey(stateTransaction[i]))
+            data.setValue(stateTransaction[i].toString(), graphVal.get(stateTransaction[i]));
+        }
+        
+    }
+
+    public static void selectionState(boolean b) {
+        trnsctSelect = b;
+    }
+
+    static int idVal = 101;
+    public static void transactionLogic(Boolean isAddition, Double amount, String myDate, String fromName, Swing.valueFrame.trnsType typeValue) {
+        System.out.println(isAddition + " " +  amount + " " +  myDate + " " +  fromName + " " +  typeValue);
+        idVal++;
+
+
+        if (isAddition) {
+            Balance += amount;
+        } else {
+            Balance -= amount;
+        }
+        balanceString = String.format("%.2f PHP",Balance);
+        balCounter.setText(balanceString);
+
+        tableData.add(new transaction(idVal, amount, myDate, fromName, typeValue));
+        setUpTableData(conttable);
+
+        updateGraph(dataset); // Updates Graph After Every new Input of Values
+    }
+
+
+
+    //Table Width Auto Resize - Do no Touch
+    public void resizeColumnWidth(JTable table) {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
+
+
+
+    //Updates up Table Data
+    //Adding Table
+    public static void setUpTableData(JTable myTable) {
+        DefaultTableModel tabelModel = (DefaultTableModel) myTable.getModel();
+        ArrayList<transaction> transList = new ArrayList<transaction>(); 
+        tabelModel.setRowCount(0);
+        transList = (ArrayList<transaction>) tableData;
+
+        for (transaction t : transList) {
+            String[] data = new String[5];
+
+            data[0] = Integer.toString(t.getId());
+            data[1] = Double.toString(t.getAmnt());
+            data[2] = t.getDate();
+            data[3] = t.getType().toString();
+            data[4] = t.getFrom();
+
+            tabelModel.addRow(data);
+        }
+
+        
+        //tabelModel.fireTableChanged(new TableModelEvent(tabelModel));
+        myTable.setModel(tabelModel);
+    }
+
+
+
+
+    //Creates A 2D Array for Table
+    public Object[][] twoDimenArray(List<transaction> listReference) {
+        int n  = listReference.size();
+
+        Object[][] twoDArray = new Object[n][5]; 
+        int i = 0;
+
+        for (transaction t : listReference) {
+            String[] data = new String[5];
+
+            data[0] = Integer.toString(t.getId());
+            data[1] = Double.toString(t.getAmnt());
+            data[2] = t.getDate();
+            data[3] = t.getType().toString();
+            data[4] = t.getFrom();
+
+            twoDArray[i] = data;
+            i++;
+
+        }
+
+
+        return twoDArray;
+    }
+    //Adds Coloured backGround
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        int w = getWidth(), h = getHeight();
+        Color color1 = new Color(237,241,214);
+        Color color2 = new Color(157,192,139);
+        GradientPaint gp = new GradientPaint(w/2, 0, color1, w/2, h, color2);
+        g2d.setPaint(gp);
+        g2d.fillRect(0, 0, w, h);
+        //future references RGB(96, 153, 102) || RGB(64, 81, 59)
     }
 }
-
-

@@ -24,6 +24,8 @@ import java.awt.Graphics;
 
 public class Login extends JFrame implements ActionListener {
 
+    Color colorScheme[] = {Color.decode("#453C67"), Color.decode("#6D67E4"), Color.decode("#46C2CB"), Color.decode("#F2F7A1")}; 
+
     float width = 750, height = 700;
     JTextField passText, userText;
     JLabel registerLabel;
@@ -64,31 +66,65 @@ public class Login extends JFrame implements ActionListener {
         imagePanel = new imgHolder(getDimen(width, .58), (int)height);
         ((imgHolder) imagePanel).setImage(imageString);
 
+
+        //Input Values 
+        int lineOffset = 10; //spacing between text
+        int posOffset = 450; //X position of text fields
+
         //Instantiates input Holder
         inputPanel = new JPanel();
         inputPanel.setLayout(null);
         inputPanel.setBounds(getDimen(width, .58), 0, getDimen(width, .40), (int)height);
-        inputPanel.setBackground(Color.GREEN);
+        inputPanel.setBackground(colorScheme[0]);
 
         //Username Text Field
-        userText = new HintTextField("Username");
-        userText.setBounds(20, (getDimen(height, .05) * 0) + 10, getDimen(width, .35), getDimen(height, .05));
+        userText = new HintTextField("  Username");
+        userText.setBounds(20, ((getDimen(height, .05) * 0) + posOffset) + lineOffset * 0, getDimen(width, .35), getDimen(height, .05));
+        userText.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         userText.addActionListener(this);
 
+        //Set Desgin
+        userText.setBackground(colorScheme[1]);
+        userText.setForeground(colorScheme[3]);
+
+
+
         //Password Text Field
-        passText = new HintTextField("Password");
-        passText.setBounds(20, (getDimen(height, .05) * 1) + 10 * 2, getDimen(width, .35), getDimen(height, .05));
+        passText = new HintTextField("  Password");
+        passText.setBounds(20, ((getDimen(height, .05) * 1) + posOffset) + lineOffset * 1, getDimen(width, .35), getDimen(height, .05));
+        passText.setBorder(javax.swing.BorderFactory.createEmptyBorder()); // Removes TextField Border
         passText.addActionListener(this);
+
+        //Set Desgin
+        passText.setBackground(colorScheme[1]);
+        passText.setForeground(colorScheme[3]);
         
+
+
         //Login Button
         submit = new JButton("LOGIN");
-        submit.setBounds(20, (getDimen(height, .05) * 2) + 10 * 3, getDimen(width, .35), getDimen(height, .05));
+        submit.setBounds(20, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .35), getDimen(height, .05));
         submit.addActionListener(this);
+
+        submit.setBackground(colorScheme[2]);
+        submit.setForeground(colorScheme[3]);
+
+        submit.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent me) {
+                submit.setForeground(Color.RED);
+
+            }
+
+            public void mouseExited(MouseEvent me) {
+                submit.setForeground(colorScheme[3]);
+            }        
+        });
 
         //Register button
         registerLabel = new JLabel("Click here to register");
-        registerLabel.setBounds(50, (getDimen(height, .05) * 4) + 10 * 1, getDimen(width, .35), getDimen(height, .05));
-        registerLabel.addMouseListener(new MouseAdapter() {
+        registerLabel.setBounds(getDimen(width, .12), ((getDimen(height, .05) * 3) + posOffset) + lineOffset * 3, getDimen(width, .35), getDimen(height, .05));
+        registerLabel.setForeground(colorScheme[3]);
+        registerLabel.addMouseListener(new MouseAdapter() { //Register Button Action Listener
             public void mouseClicked(MouseEvent me) {
 
                 if (registration == false) {
@@ -106,7 +142,7 @@ public class Login extends JFrame implements ActionListener {
             }
 
             public void mouseExited(MouseEvent me) {
-                registerLabel.setForeground(Color.BLACK);
+                registerLabel.setForeground(colorScheme[3]);
             }
         });
 
@@ -135,6 +171,7 @@ public class Login extends JFrame implements ActionListener {
             if (userText.getText().length() != 0 && passText.getText().length() != 0) {
                 this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
+                imgHolder.animateAgain.stop();
             } else {
                 JOptionPane.showMessageDialog(this, "Please Input a valid username and password.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -152,10 +189,10 @@ public class Login extends JFrame implements ActionListener {
 
         private BufferedImage image[];
 
-        Timer animateAgain;
+        static Timer animateAgain;
         boolean animateRight;
         Timer animTimer;
-        int delay = 2;
+        int delay = 8;
         int curTime = 0;
 
         int imageWidth = this.width;
@@ -207,7 +244,7 @@ public class Login extends JFrame implements ActionListener {
                             Count++;
                         }
                         cur += speed;
-                        if (cur > offSet[2] + width + 5) {
+                        if (cur >  offSet[2] + width ) { // offSet[2] + width + 5
                             animateRight = false;
                             System.out.print(" Cur: " + imgPovPres + " Prev: " + imgPovPrev + " Next: " + imgPovNext + " ");
                             System.out.println("The Current "+ cur);
@@ -249,12 +286,12 @@ public class Login extends JFrame implements ActionListener {
                         }
 
                         if (imgPovNext >= offSet[2] + width) {
-                            imgPovNext = offSet[0] - 4;
+                            imgPovNext = offSet[0] ;
 
                         }
 
                         if (imgPovPrev >= offSet[2] + width) {
-                            imgPovPrev = offSet[0] - 4;
+                            imgPovPrev = offSet[0];
 
                         }
 
