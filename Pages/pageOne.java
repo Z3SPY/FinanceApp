@@ -14,7 +14,9 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,12 +27,14 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.xml.crypto.Data;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import Database.transaction;
@@ -41,6 +45,7 @@ import Database.transaction;
 import Elements.card;
 import Swing.Login;
 import Swing.valueFrame;
+import Swing.valueFrame.trnsType;
 
 public class pageOne extends JPanel{
 	
@@ -49,10 +54,10 @@ public class pageOne extends JPanel{
 
     //Balance Card Values 
     JLabel balLabel;
-    JLabel balCounter;
+    static JLabel balCounter;
     
-    Double Balance = 0.00;
-    String balanceString;
+    static Double Balance = 0.00;
+    static String balanceString;
 
     //Net Profit Values
     JLabel netLabel;
@@ -63,6 +68,11 @@ public class pageOne extends JPanel{
 
     //JTable
     static JTable conttable; 
+    private static Map<Swing.valueFrame.trnsType, Integer> graphVal;
+
+    //Free Chart
+    static JFreeChart chart;
+    static DefaultPieDataset dataset;
     
     //Some JLabel
     JLabel graphLabel;
@@ -169,9 +179,17 @@ public class pageOne extends JPanel{
 
        String tablecolumn[] = {"Transaction ID","Amount", "Date", "Transaction Type", "From"};
         
-       tableData.add(new transaction(101, 5000, "March 18 2020", "Billy", Swing.valueFrame.trnsType.BUSINESS));
-       tableData.add(new transaction(102, 5000, "March 18 2020", "Billy", Swing.valueFrame.trnsType.BUSINESS));
-       tableData.add(new transaction(103, 5000, "March 18 2020", "Billy", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.ACTIVITIES));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.ACTIVITIES));
+
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(101, 1000, "March 18 2020", "Valhala Company", Swing.valueFrame.trnsType.ACTIVITIES));
+
 
        DefaultTableModel tableModel = new DefaultTableModel(twoDimenArray(tableData), tablecolumn) {
             @Override
@@ -272,13 +290,14 @@ public class pageOne extends JPanel{
         graphPanel.setLayout(null);
 
 
-        DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Category 1", 50);
-        dataset.setValue("Category 2", 25);
-        dataset.setValue("Category 3", 25);
+        //Values Update
+        dataset = new DefaultPieDataset();
+        graphVal = new HashMap<>();  // For our Hash Map variables
+        updateGraph(dataset);
+
         
-        JFreeChart chart = ChartFactory.createPieChart("", dataset, true, true, false);
         
+        chart = ChartFactory.createPieChart("", dataset, true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBounds(0, 25, grphCrdW,Login.getDimen(grphCrdH, .80));
         
@@ -302,17 +321,68 @@ public class pageOne extends JPanel{
     }
 
 
+    //Update Values of Graph
+    public static void updateGraph(DefaultPieDataset data) {
+
+        Swing.valueFrame.trnsType[] stateTransaction = {trnsType.ACTIVITIES, 
+            trnsType.BUSINESS, 
+            trnsType.FOOD,
+            trnsType.MISC,
+            trnsType.BANK,
+            trnsType.HOBBIES,
+            trnsType.EXPENSES,
+            trnsType.UTILITIES};
+
+
+        
+        graphVal.clear(); // Cleans out Hash map
+    
+
+        for (transaction t: tableData) {
+
+            Swing.valueFrame.trnsType dataType = t.getType();
+
+            if (!graphVal.containsKey(dataType)) {
+                graphVal.put(dataType, 0); // Hash Map with Key so that we can keep track of our graph values
+                System.out.print("yo");
+            } 
+
+            graphVal.put(dataType, graphVal.get(dataType) + 1);
+
+            System.out.println(dataType + ": " + graphVal.get(dataType));
+
+        }        
+
+
+        for (int i = 0; i < stateTransaction.length; i++) {
+            if (graphVal.containsKey(stateTransaction[i]))
+            data.setValue(stateTransaction[i].toString(), graphVal.get(stateTransaction[i]));
+        }
+        
+    }
+
     public static void selectionState(boolean b) {
         trnsctSelect = b;
     }
 
-    static int idVal = 103;
+    static int idVal = 101;
     public static void transactionLogic(Boolean isAddition, Double amount, String myDate, String fromName, Swing.valueFrame.trnsType typeValue) {
         System.out.println(isAddition + " " +  amount + " " +  myDate + " " +  fromName + " " +  typeValue);
         idVal++;
+
+
+        if (isAddition) {
+            Balance += amount;
+        } else {
+            Balance -= amount;
+        }
+        balanceString = String.format("%.2f PHP",Balance);
+        balCounter.setText(balanceString);
+
         tableData.add(new transaction(idVal, amount, myDate, fromName, typeValue));
         setUpTableData(conttable);
-        
+
+        updateGraph(dataset); // Updates Graph After Every new Input of Values
     }
 
 
@@ -335,7 +405,7 @@ public class pageOne extends JPanel{
 
 
 
-    //Sets up Table Data
+    //Updates up Table Data
     //Adding Table
     public static void setUpTableData(JTable myTable) {
         DefaultTableModel tabelModel = (DefaultTableModel) myTable.getModel();
@@ -361,6 +431,9 @@ public class pageOne extends JPanel{
     }
 
 
+
+
+    //Creates A 2D Array for Table
     public Object[][] twoDimenArray(List<transaction> listReference) {
         int n  = listReference.size();
 
