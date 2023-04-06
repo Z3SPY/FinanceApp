@@ -1,8 +1,10 @@
 package Elements;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 
@@ -19,8 +21,8 @@ public class navItem {
         return type;
     }
 
-    public String getNavIcon() {
-        return navIcon;
+    public ImageIcon getNavIcon() {
+        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
     }
 
     public String getNavText() {

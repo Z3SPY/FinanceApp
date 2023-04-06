@@ -66,7 +66,7 @@ public class Dashboard extends JFrame {
         
         //Side Navigation Holds Profile and Menu
         sidePanel = new sideNavMenu(menuChoices);    
-        sidePanel.setBounds(0, 0, Login.getDimen(Dashboard.width, .23), (int) height);
+        sidePanel.setBounds(0, 0, Login.getDimen(Dashboard.width, .22), (int) height);
         sidePanel.add(menuChoices);
         sidePanel.add(profileSect);
         //End Naviationg
@@ -139,7 +139,7 @@ class sideNavMenu extends JPanel{
     Boolean hideAnim = false;
 
     int selectedIndex = -1;
-    int menuX = (int) Login.getDimen(Dashboard.width, .22), menuY = (int) Dashboard.width;
+    int menuX = (int) Login.getDimen(Dashboard.width, .22), menuY = (int) Dashboard.height;
     boolean toUp;
 
     Timer timer;
@@ -307,15 +307,15 @@ class sideNavMenu extends JPanel{
     }
 
     public void initComp() {
-        buttonComp.add(new navItem("Finances", "Icon Sample", MenuType.MENU));
-        buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
-        buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
-        buttonComp.add(new navItem("Community", "Icon Sample", MenuType.MENU));
-        buttonComp.add(new navItem("About", "Icon Sample", MenuType.MENU));
+        buttonComp.add(new navItem("Finances", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("Community", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("Community", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("Community", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("About", "App-Images/logo_3.png", MenuType.MENU));
         buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
-        buttonComp.add(new navItem("Profile", "Icon Sample", MenuType.MENU));
+        buttonComp.add(new navItem("Profile", "App-Images/logo_3.png", MenuType.MENU));
 
     }
 
@@ -344,7 +344,7 @@ class sideNavMenu extends JPanel{
 
         g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFFFFF")); //Square Surronding Text
         g2.setPaint(g);
-        g2.fillRoundRect(5, drawY + 4, 165, 50, 30, 30); // Round Tip
+        g2.fillRoundRect(0, drawY + 4, 190, 50, 30, 30); // Round Tip
 
         
 

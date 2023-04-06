@@ -1,5 +1,6 @@
 package Pages;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -9,6 +10,11 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,21 +22,25 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableCellRenderer;
-
+import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
+import Database.transaction;
+
 
 //import com.mysql.cj.log.Log;
 
 import Elements.card;
 import Swing.Login;
+import Swing.valueFrame;
 
 public class pageOne extends JPanel{
 	
@@ -50,9 +60,17 @@ public class pageOne extends JPanel{
 
     Double netProfit = 0.00;
     String netProfitString;
+
+    //JTable
+    static JTable conttable; 
     
     //Some JLabel
     JLabel graphLabel;
+
+    //Selection Value
+    static Boolean trnsctSelect = false;
+    static List<transaction> tableData =  new ArrayList<transaction>();
+
 
 
     public pageOne(int width, int height) {
@@ -63,6 +81,7 @@ public class pageOne extends JPanel{
         Balance = 1000.00;
 
         //Balance Card
+        //#region
         int bCrdW = 210; // Balance Card Width
         int bCrdH = 125; // Balance Card Height
         
@@ -97,11 +116,12 @@ public class pageOne extends JPanel{
             vBC.add(balCounter);
 
             
-        
+        //#endregion
         //Balance Card End
 
 
         //Net Profit Card
+        //#region
         int netCrdW = 210; // Net Profit Card Width
         int netCrdH = 125; // Net Profit Card Height
         
@@ -135,27 +155,44 @@ public class pageOne extends JPanel{
             vNC.add(netCounter);
 
             
-        
+        //#endregion
         //Net Profit Card
 
 
 
        //Jtable Portion
+        //#region
        int tblCrdW = 740;
        int tblCrdH = 200;
+
+       //Table Value Start
+
        String tablecolumn[] = {"Transaction ID","Amount", "Date", "Transaction Type", "From"};
-       String tabledata[][] = {{"101", "5000","March 18 2020","Last Harvest's Profits", "Agri Inc"},
-               {"102", "2000","June 18 2020","Last Harvest's Profits", "Agri Inc"},
-               {"103", "8000","August 18 2020","Last Harvest's Profits", "Agri Inc"}
-       };
+        
+       tableData.add(new transaction(101, 5000, "March 18 2020", "Billy", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(102, 5000, "March 18 2020", "Billy", Swing.valueFrame.trnsType.BUSINESS));
+       tableData.add(new transaction(103, 5000, "March 18 2020", "Billy", Swing.valueFrame.trnsType.BUSINESS));
+
+       DefaultTableModel tableModel = new DefaultTableModel(twoDimenArray(tableData), tablecolumn) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+       conttable = new JTable(tableModel);
+
+       //Table Value End
+
+
 
 
        card JTableCard = new card(10, 300, tblCrdW, tblCrdH, Color.GREEN);
        JTableCard.CreateCard(0,0,tblCrdW,tblCrdH, Color.WHITE);//index 0
        JTableCard.getPanel(0).setLayout(null);
-       JTable conttable = new JTable(tabledata,tablecolumn);
        JScrollPane sp=new JScrollPane(conttable);
        JLabel historyLabel = new JLabel("Transaction History");
+
 
 //        conttable.setBounds(10,100,190,400);
 
@@ -172,11 +209,35 @@ public class pageOne extends JPanel{
        JTableCard.getPanel(0).add(historyLabel);
        JTableCard.getPanel(0).add(sp);
 
+
+       //Transaction Logic
        JButton addTransBttn = new JButton("Create Transaction");
        addTransBttn.setBounds(150, 525, 500, 70);
-       this.add(addTransBttn);
-       //JTabel End
 
+            addTransBttn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    
+                    if (trnsctSelect == false) {
+                        selectionState(true);
+                        new valueFrame();                        
+                    }
+
+
+                }
+            });
+
+
+
+
+       //Transaction Logic End
+
+
+
+
+       this.add(addTransBttn);
+
+       //#endregion
+       //JTabel End
 
 
 
@@ -185,7 +246,8 @@ public class pageOne extends JPanel{
 
        
         //Graph
-        
+        //#region
+
         int grphCrdW = 510;
         int grphCrdH = 260;
 
@@ -223,7 +285,7 @@ public class pageOne extends JPanel{
 
         graphPanel.add(chartPanel);
         
-
+        //#endregion
         //Graph End
 
         
@@ -238,6 +300,22 @@ public class pageOne extends JPanel{
         
     
     }
+
+
+    public static void selectionState(boolean b) {
+        trnsctSelect = b;
+    }
+
+    static int idVal = 103;
+    public static void transactionLogic(Boolean isAddition, Double amount, String myDate, String fromName, Swing.valueFrame.trnsType typeValue) {
+        System.out.println(isAddition + " " +  amount + " " +  myDate + " " +  fromName + " " +  typeValue);
+        idVal++;
+        tableData.add(new transaction(idVal, amount, myDate, fromName, typeValue));
+        setUpTableData(conttable);
+        
+    }
+
+
 
     //Table Width Auto Resize - Do no Touch
     public void resizeColumnWidth(JTable table) {
@@ -256,6 +334,57 @@ public class pageOne extends JPanel{
     }
 
 
+
+    //Sets up Table Data
+    //Adding Table
+    public static void setUpTableData(JTable myTable) {
+        DefaultTableModel tabelModel = (DefaultTableModel) myTable.getModel();
+        ArrayList<transaction> transList = new ArrayList<transaction>(); 
+        tabelModel.setRowCount(0);
+        transList = (ArrayList<transaction>) tableData;
+
+        for (transaction t : transList) {
+            String[] data = new String[5];
+
+            data[0] = Integer.toString(t.getId());
+            data[1] = Double.toString(t.getAmnt());
+            data[2] = t.getDate();
+            data[3] = t.getType().toString();
+            data[4] = t.getFrom();
+
+            tabelModel.addRow(data);
+        }
+
+        
+        //tabelModel.fireTableChanged(new TableModelEvent(tabelModel));
+        myTable.setModel(tabelModel);
+    }
+
+
+    public Object[][] twoDimenArray(List<transaction> listReference) {
+        int n  = listReference.size();
+
+        Object[][] twoDArray = new Object[n][5]; 
+        int i = 0;
+
+        for (transaction t : listReference) {
+            String[] data = new String[5];
+
+            data[0] = Integer.toString(t.getId());
+            data[1] = Double.toString(t.getAmnt());
+            data[2] = t.getDate();
+            data[3] = t.getType().toString();
+            data[4] = t.getFrom();
+
+            twoDArray[i] = data;
+            i++;
+
+        }
+
+
+        return twoDArray;
+    }
+    //Adds Coloured backGround
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

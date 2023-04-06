@@ -2,11 +2,13 @@ package Elements;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.management.modelmbean.ModelMBean;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -24,6 +26,7 @@ import Events.navBarEventSelected;
 import Swing.Dashboard;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class choiceList<E extends Object> extends JList<E> {
@@ -134,6 +137,11 @@ public class choiceList<E extends Object> extends JList<E> {
         
     }
 
+
+
+    private Map<String, ImageIcon> iconCache = new HashMap<>(); 
+
+
     private ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
             @Override
@@ -141,15 +149,24 @@ public class choiceList<E extends Object> extends JList<E> {
                     Object value, int index, boolean isSelected,
                     boolean cellHasFocus) {
 
+                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0,Color.BLACK));  
+
                 if (value instanceof navItem) {
                     navItem temp = (navItem) value;
-                    value = temp.getNavText();
 
-                    if (isSelected) {
-                    } //Create a class
+                    listCellRendererComponent.setText(temp.getNavText());
+
+                    if (!iconCache.containsKey(temp.getNavText())) {
+                        iconCache.put(temp.getNavText(), temp.getNavIcon()); // Helps With Lag, Stores the Icon Image Inside of Hash Map To Prevent Reloading
+                    }
+                    
+                    listCellRendererComponent.setIcon(iconCache.get(temp.getNavText()));
+
                 }
-                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0,Color.BLACK));
+
+                
+
                 return listCellRendererComponent;
             }
         };
