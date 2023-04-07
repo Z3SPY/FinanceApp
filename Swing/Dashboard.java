@@ -39,6 +39,7 @@ public class Dashboard extends JFrame {
     pageTwo pageCommunity;
     pageThree pageAbout;
     pageFour pageAccount;
+    pageFive peoplePage;
 
     Dashboard() {
         this.setTitle("Application Dashboard");
@@ -93,9 +94,11 @@ public class Dashboard extends JFrame {
         pageCommunity = new pageTwo((int) width, (int) height);
         pageAbout = new pageThree((int) width, (int) height);
         pageAccount = new pageFour((int) width, (int) height);
+        peoplePage = new pageFive((int) width, (int) height);
 
         mainPanel.add(pageFinance);
         mainPanel.add(pageCommunity);
+        mainPanel.add(peoplePage);
         mainPanel.add(pageAbout);
         mainPanel.add(pageAccount);
 
@@ -116,7 +119,7 @@ class ProfileSection extends JPanel {
         this.setVisible(true);
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
-                choiceListRef.switchPageGlobal(8);
+                choiceListRef.switchPageGlobal(7);
                 //new profileFrame();
             }
         });
@@ -307,15 +310,14 @@ class sideNavMenu extends JPanel{
     }
 
     public void initComp() {
-        buttonComp.add(new navItem("Finances", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("Community", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("Community", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("Community", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("About", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Finances", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Community", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("  People", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("  About", "App-Images/logo_3.png", MenuType.MENU));
         buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
-        buttonComp.add(new navItem("Profile", "App-Images/logo_3.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Profile", "App-Images/profile.png", MenuType.MENU));
 
     }
 

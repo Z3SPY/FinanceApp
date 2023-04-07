@@ -24,7 +24,7 @@ import java.awt.Graphics;
 
 public class Login extends JFrame implements ActionListener {
 
-    Color colorScheme[] = {Color.decode("#453C67"), Color.decode("#6D67E4"), Color.decode("#46C2CB"), Color.decode("#F2F7A1")}; 
+    static Color colorScheme[] = {Color.decode("#79A494"), Color.decode("#517669"), Color.decode("#385148"), Color.decode("#27332F")}; 
 
     float width = 750, height = 700;
     JTextField passText, userText;

@@ -7,6 +7,7 @@ public class transaction {
     double amnt; 
     String date, from; 
     Swing.valueFrame.trnsType type;
+    boolean isAddition;
 
     
 
@@ -30,12 +31,17 @@ public class transaction {
         return type;
     }
 
+    public Boolean getIsAddition() {
+        return isAddition;
+    }
 
-    public transaction(int ID, double AMOUNT, String DATE, String FROM, Swing.valueFrame.trnsType TYPE) {
+
+    public transaction(int ID, double AMOUNT, String DATE, String FROM, Swing.valueFrame.trnsType TYPE, boolean add) {
         id = ID;
         amnt = AMOUNT;
         date = DATE;
         from = FROM;
         type = TYPE;
+        isAddition = add;
     }
 }

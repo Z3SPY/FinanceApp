@@ -22,7 +22,7 @@ public class navItem {
     }
 
     public ImageIcon getNavIcon() {
-        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
     }
 
     public String getNavText() {

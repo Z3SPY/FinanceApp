@@ -94,11 +94,11 @@ public class choiceList<E extends Object> extends JList<E> {
         //Switch Pages
         repaint();
         switch (index) {
-            case 0, 1, 2, 3:
+            case 0, 1, 2, 3, 4:
                 Dashboard.mainPanel.setSelectedIndex(index);
                 break;
             default:
-                Dashboard.mainPanel.setSelectedIndex(1);
+                Dashboard.mainPanel.setSelectedIndex(4);
                 break;
         }
 
