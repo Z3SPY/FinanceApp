@@ -22,7 +22,12 @@ public class navItem {
     }
 
     public ImageIcon getNavIcon() {
-        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+    }
+
+    public ImageIcon getSelectedIcon() {
+        System.out.println(selectedIcon);
+        return new ImageIcon(new ImageIcon(selectedIcon).getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
     }
 
     public String getNavText() {
@@ -41,11 +46,12 @@ public class navItem {
         this.navText = navText;
     }
 
-    public navItem(String text, String icon, MenuType type) {
+    public navItem(String text, String icon, String select , MenuType type) {
 
         this.navText = text.toUpperCase();
         this.navIcon = icon;
         this.type = type;
+        this.selectedIcon = select;
         
     }
 

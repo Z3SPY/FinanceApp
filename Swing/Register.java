@@ -16,6 +16,7 @@ import java.awt.event.*;
 
 public class Register extends JFrame implements ActionListener {  
 
+    
     JLabel descLabel, rtrnLgn; 
     HintTextField pasTxtFld, cnfPasTxtFld,
     usrNmTxtFld, emlTxtFld;
@@ -55,7 +56,8 @@ public class Register extends JFrame implements ActionListener {
         rtrnLgn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 System.out.println("Yo");
-                new Login(); // Create a function that closes this jframe to open another
+                Login.closeRegistration();
+                dispose(); // Create a function that closes this jframe to open another
             }
 
             public void mouseEntered(MouseEvent me) {
@@ -87,6 +89,7 @@ public class Register extends JFrame implements ActionListener {
             public void windowClosing(WindowEvent e) {
                 if (e != null) {
                     Login.closeRegistration();
+
                 }
             }
         });

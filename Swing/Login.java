@@ -1,5 +1,7 @@
 package Swing;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,20 +13,32 @@ import javax.swing.JTextField;
 import Elements.HintTextField;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
 
 
 
 
 public class Login extends JFrame implements ActionListener {
 
-    Color colorScheme[] = {Color.decode("#453C67"), Color.decode("#6D67E4"), Color.decode("#46C2CB"), Color.decode("#F2F7A1")}; 
+    public static Color colorScheme[] = {Color.decode("#76515E"), Color.decode("#517669"), Color.decode("#385148"), Color.decode("#27332F"), Color.decode("#d7f8c2")};
+
+    //Logo
+    Icon companyLogo;
+    JLabel companyLabel, companySlogan;
+    //Logo End
 
     float width = 750, height = 700;
     JTextField passText, userText;
@@ -54,7 +68,17 @@ public class Login extends JFrame implements ActionListener {
     }
     
     Login() {
-        
+        companyLogo = new ImageIcon(new ImageIcon("App-Images/CompanyLogo.png").getImage().getScaledInstance(200, 250, Image.SCALE_DEFAULT));
+        companyLabel = new JLabel(companyLogo);
+        companyLabel.setBounds(57, 25, 200, 250);
+
+        companySlogan = new JLabel("<html>FINANCE<br>&nbsp;&nbsp;&nbsp;&nbsp;THE<br>&nbsp;PEOPLE</html>");
+        companySlogan.setForeground(colorScheme[4]);
+        companySlogan.setFont(new Font("Serif", Font.BOLD, 30));
+        companySlogan.setPreferredSize(new Dimension(250, 250));
+        companySlogan.setBounds(75, 200, 250, 250);
+
+
         this.setTitle("Login Page");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,7 +111,7 @@ public class Login extends JFrame implements ActionListener {
 
         //Set Desgin
         userText.setBackground(colorScheme[1]);
-        userText.setForeground(colorScheme[3]);
+        userText.setForeground(colorScheme[4]);
 
 
 
@@ -97,18 +121,22 @@ public class Login extends JFrame implements ActionListener {
         passText.setBorder(javax.swing.BorderFactory.createEmptyBorder()); // Removes TextField Border
         passText.addActionListener(this);
 
+
         //Set Desgin
         passText.setBackground(colorScheme[1]);
-        passText.setForeground(colorScheme[3]);
-
+        passText.setForeground(colorScheme[4]);
+        
 
 
         //Login Button
         submit = new JButton("LOGIN");
-        submit.setBounds(20, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .35), getDimen(height, .05));
+        submit.setBounds(40, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .30), getDimen(height, .05));
         submit.addActionListener(this);
-        submit.setBackground(colorScheme[2]);
-        submit.setForeground(colorScheme[3]);
+submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+
+
+        submit.setBackground(colorScheme[3]);
+        submit.setForeground(colorScheme[4]);
 
 
         //Keylistener for Enter Key
@@ -127,19 +155,22 @@ public class Login extends JFrame implements ActionListener {
 
         submit.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent me) {
-                submit.setForeground(Color.RED);
+                submit.setForeground(colorScheme[2]);
+                submit.setBackground(colorScheme[3]);
 
             }
 
             public void mouseExited(MouseEvent me) {
-                submit.setForeground(colorScheme[3]);
+                submit.setBackground(colorScheme[3]);
+                submit.setForeground(colorScheme[4]);
+
             }        
         });
 
         //Register button
         registerLabel = new JLabel("Click here to register");
         registerLabel.setBounds(getDimen(width, .12), ((getDimen(height, .05) * 3) + posOffset) + lineOffset * 3, getDimen(width, .35), getDimen(height, .05));
-        registerLabel.setForeground(colorScheme[3]);
+        registerLabel.setForeground(colorScheme[4]);
         registerLabel.addMouseListener(new MouseAdapter() { //Register Button Action Listener
             public void mouseClicked(MouseEvent me) {
 
@@ -158,7 +189,7 @@ public class Login extends JFrame implements ActionListener {
             }
 
             public void mouseExited(MouseEvent me) {
-                registerLabel.setForeground(colorScheme[3]);
+                registerLabel.setForeground(colorScheme[4]);
             }
         });
 
@@ -176,6 +207,8 @@ public class Login extends JFrame implements ActionListener {
         inputPanel.add(userText);
         inputPanel.add(submit);
         inputPanel.add(registerLabel);
+        inputPanel.add(companyLabel);
+        inputPanel.add(companySlogan);
 
         this.add(imagePanel);
         this.add(inputPanel);

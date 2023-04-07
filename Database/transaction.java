@@ -1,5 +1,9 @@
 package Database;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class transaction {
     // ID . AMOUNT . DATE . TRANSACTION TYPE . FROM
 
@@ -7,6 +11,7 @@ public class transaction {
     double amnt; 
     String date, from; 
     Swing.valueFrame.trnsType type;
+    boolean isAddition;
 
     
 
@@ -30,12 +35,22 @@ public class transaction {
         return type;
     }
 
+    public Boolean getIsAddition() {
+        return isAddition;
+    }
 
-    public transaction(int ID, double AMOUNT, String DATE, String FROM, Swing.valueFrame.trnsType TYPE) {
+    public Date getActualDate() throws ParseException {
+        String mydate = date;
+        return (Date) (new SimpleDateFormat("dd/MM/yyyy").parse(mydate));
+    }
+
+
+    public transaction(int ID, double AMOUNT, String DATE, String FROM, Swing.valueFrame.trnsType TYPE, boolean add) {
         id = ID;
         amnt = AMOUNT;
         date = DATE;
         from = FROM;
         type = TYPE;
+        isAddition = add;
     }
 }
