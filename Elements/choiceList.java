@@ -140,6 +140,7 @@ public class choiceList<E extends Object> extends JList<E> {
 
 
     private Map<String, ImageIcon> iconCache = new HashMap<>(); 
+    private Map<String, ImageIcon> iconSlctCache = new HashMap<>();
 
 
     private ListCellRenderer<? super String> getRenderer() {
@@ -159,9 +160,15 @@ public class choiceList<E extends Object> extends JList<E> {
 
                     if (!iconCache.containsKey(temp.getNavText())) {
                         iconCache.put(temp.getNavText(), temp.getNavIcon()); // Helps With Lag, Stores the Icon Image Inside of Hash Map To Prevent Reloading
+                        iconSlctCache.put(temp.getNavText(), temp.getSelectedIcon());
                     }
                     
-                    listCellRendererComponent.setIcon(iconCache.get(temp.getNavText()));
+
+                    if (!isSelected)
+                    listCellRendererComponent.setIcon(iconCache.get(temp.getNavText()));    
+                    else 
+                    listCellRendererComponent.setIcon(iconSlctCache.get(temp.getNavText()));    
+                    
 
                 }
 

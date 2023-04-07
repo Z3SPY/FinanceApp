@@ -45,11 +45,11 @@ public class pageTwo extends JPanel{
         content.setBounds(0, 0, width, 200);
         content.setLayout(null);
         //Card 
-        for (int i = 0; i < 5; i++) {
-            card contentCard = new card(50, 50 + (110*i), width - 275, 100, Color.CYAN);    
+        int cardH = 200;
+        for (int i = 0; i < 7; i++) {
+            card contentCard = new card(50, 50 + ((cardH + 10)*i), width - 275, cardH, Color.CYAN);    
             articles.add( new article(contentCard, "This is The Title", "This is the content")); //Adds Article to list
 
-            
         } 
         
 
@@ -64,7 +64,7 @@ public class pageTwo extends JPanel{
        
 
         JScrollPane scroll = new JScrollPane(content);
-        scroll.setBounds( 80, 0, 800, height);
+        scroll.setBounds( 80, 0, 800 , height);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
 
  

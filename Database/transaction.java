@@ -1,5 +1,9 @@
 package Database;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class transaction {
     // ID . AMOUNT . DATE . TRANSACTION TYPE . FROM
 
@@ -33,6 +37,11 @@ public class transaction {
 
     public Boolean getIsAddition() {
         return isAddition;
+    }
+
+    public Date getActualDate() throws ParseException {
+        String mydate = date;
+        return (Date) (new SimpleDateFormat("dd/MM/yyyy").parse(mydate));
     }
 
 

@@ -310,14 +310,14 @@ class sideNavMenu extends JPanel{
     }
 
     public void initComp() {
-        buttonComp.add(new navItem("  Finances", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("  Community", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("  People", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("  About", "App-Images/logo_3.png", MenuType.MENU));
-        buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
-        buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
-        buttonComp.add(new navItem("", "Icon Sample", MenuType.EMPTY));
-        buttonComp.add(new navItem("  Profile", "App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Finances", "App-Images/logo_3.png", "App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Community", "App-Images/logo_3.png", "App-Images/profile.png",MenuType.MENU));
+        buttonComp.add(new navItem("  People", "App-Images/logo_3.png","App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  About", "App-Images/logo_3.png","App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("", "Icon Sample", "", MenuType.EMPTY));
+        buttonComp.add(new navItem("", "Icon Sample", "",MenuType.EMPTY));
+        buttonComp.add(new navItem("", "Icon Sample", "",MenuType.EMPTY));
+        buttonComp.add(new navItem("  Profile", "App-Images/logo_3.png", "App-Images/profile.png", MenuType.MENU));
 
     }
 
@@ -346,7 +346,7 @@ class sideNavMenu extends JPanel{
 
         g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFFFFF")); //Square Surronding Text
         g2.setPaint(g);
-        g2.fillRoundRect(0, drawY + 4, 190, 50, 30, 30); // Round Tip
+        g2.fillRoundRect(0, drawY + 4, 180, 50, 30, 30); // Round Tip
 
         
 

@@ -15,6 +15,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
+
 import Database.transaction;
 
 
@@ -52,7 +55,7 @@ import Swing.Login;
 import Swing.valueFrame;
 import Swing.valueFrame.trnsType;
 
-public class pageOne extends JPanel{
+public class pageOne extends JPanel implements ActionListener{
 	
 	//Font
 	Font myFont = new Font("Georgia", Font.BOLD, 23);
@@ -85,6 +88,8 @@ public class pageOne extends JPanel{
     //Free Chart
     static JFreeChart chart;
     static DefaultPieDataset dataset;
+
+    JButton sortAmnt, sortTyp, sortFrm, sortID;
     
     //Some JLabel
     JLabel graphLabel;
@@ -207,7 +212,7 @@ public class pageOne extends JPanel{
             //Text Field
             glBalVal = new JTextField(goalBalanceString.replaceAll("\\s", ""));
             glBalVal.setFont(new Font("Serif", Font.BOLD, 24)); // Font For Net Gain
-            glBalVal.setBounds(Login.getDimen(goalCrdW, .20), 19, Login.getDimen(goalCrdW, .40), Login.getDimen(goalCrdH, .30));
+            glBalVal.setBounds(Login.getDimen(goalCrdW, .19), 18, Login.getDimen(goalCrdW, .40), Login.getDimen(goalCrdH, .30));
             glBalVal.setBorder(javax.swing.BorderFactory.createEmptyBorder()); // Removes Border
             glBalVal.setBackground(new Color(96, 153, 102)); // Sets the background of our textfield to the same background as our card
             
@@ -265,7 +270,7 @@ public class pageOne extends JPanel{
             //Jlabel
             glBalAdd = new JLabel("PHP");
             glBalAdd.setFont(new Font("Serif", Font.BOLD, 24)); // Font For Net Gain
-            glBalAdd.setBounds(Login.getDimen(goalCrdW, 0.60), 20, Login.getDimen(goalCrdW, .5), Login.getDimen(goalCrdH, .30));
+            glBalAdd.setBounds(Login.getDimen(goalCrdW, 0.61), 20, Login.getDimen(goalCrdW, .5), Login.getDimen(goalCrdH, .30));
             //End Jlabel Field
             
             goalCard.setInnerCard(30, 0); // Set This First Before Deginig Card
@@ -278,12 +283,38 @@ public class pageOne extends JPanel{
         //#endregion
         //Goal Balance Region End
 
+
        //Jtable Portion
         //#region
        int tblCrdW = 740;
        int tblCrdH = 200;
 
        //Table Value Start
+       int butWidth = 120;
+       int butspacing = 10;
+       int butBasis = 250;
+       sortID = new JButton("SORT BY ID"); //Sort By Amount
+       sortID.setBounds(butBasis + ((butWidth * 0) + butspacing), 300, butWidth, 20);
+       sortID.setFont(new Font("Serif", Font.BOLD, 10));
+       sortID.addActionListener(this);
+
+       sortAmnt = new JButton("SORT BY VALUE"); //Sort By Amount
+       sortAmnt.setBounds(butBasis + ((butWidth * 1) + butspacing), 300, butWidth, 20);
+       sortAmnt.setFont(new Font("Serif", Font.BOLD, 10));
+       sortAmnt.addActionListener(this);
+
+       sortFrm = new JButton("SORT BY FROM"); //Sort By Amount
+       sortFrm.setBounds(butBasis + ((butWidth * 2) + butspacing), 300, butWidth, 20);
+       sortFrm.setFont(new Font("Serif", Font.BOLD, 10));
+       sortFrm.addActionListener(this);
+
+       sortTyp = new JButton("SORT BY TYPE"); //Sort By Amount
+       sortTyp.setBounds(butBasis + ((butWidth * 3) + butspacing), 300, butWidth, 20);
+       sortTyp.setFont(new Font("Serif", Font.BOLD, 10));
+       sortTyp.addActionListener(this);
+
+       
+       
 
        String tablecolumn[] = {"Transaction ID","Amount", "Date", "Transaction Type", "From"};
         
@@ -298,7 +329,6 @@ public class pageOne extends JPanel{
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-
     
         };
 
@@ -334,7 +364,8 @@ public class pageOne extends JPanel{
 
 
        //Transaction Logic
-       JButton addTransBttn = new JButton("Create Transaction");
+       JButton addTransBttn = new JButton("CREATE TRANSACTION");
+       addTransBttn.setBackground(Login.colorScheme[0]);
        addTransBttn.setBounds(150, 535, 500, 70);
 
             addTransBttn.addActionListener(new ActionListener() {
@@ -411,6 +442,12 @@ public class pageOne extends JPanel{
         this.add(netCard);
         this.add(goalCard);
         this.add(JTableCard);
+        
+        this.add(sortAmnt);
+        this.add(sortFrm);
+        this.add(sortID);
+        this.add(sortTyp);
+
         this.add(graphCard);
         this.setVisible(true);
 
@@ -420,9 +457,11 @@ public class pageOne extends JPanel{
 
     //METHODS LIST
 
+
+    
     public static void UpdateNetProfit() {
         netProfit = ((Balance - goalBalance) / goalBalance) * 100 ; // Balance Is Net // Goal Balance in Gross Profit
-        System.out.println(netProfit);
+       // System.out.println(netProfit);
         netCounter.setText(String.format("%10.2f%%",netProfit));
         netCounter.repaint();
     }
@@ -511,13 +550,107 @@ public class pageOne extends JPanel{
         }
         balanceString = String.format("%.2f PHP",Balance);
         balCounter.setText(balanceString);
-
+        
         tableData.add(new transaction(idVal, amount, myDate, fromName, typeValue, isAddition));
         setUpTableData(conttable);
-
         updateGraph(dataset); // Updates Graph After Every new Input of Values
     }
 
+
+    //Sorting Array -- If array is sorted table will also be sorted
+    public static void sortBy(String sortingBasis) {
+
+        System.out.println("called");
+        int n = tableData.size();
+        quickSort(tableData, 0, n-1, sortingBasis);
+
+        setUpTableData(conttable);
+        updateGraph(dataset);
+
+    }
+
+
+    //Quick Sort
+
+    static void swap(List<transaction> myData, int i, int j)
+    {
+        Collections.swap(myData, i, j);
+    }
+ 
+ 
+    static int partition(List<transaction> myData, int low, int high, String sortingBasis)
+    {
+        int i = (low - 1);
+
+        switch (sortingBasis.toLowerCase()) {
+            case "amount":
+                double pivotAmt = (myData.get(high).getIsAddition() == true) ? myData.get(high).getAmnt() : myData.get(high).getAmnt() * -1;
+                for (int j = low; j <= high - 1; j++) {
+ 
+                    double compAmt = (myData.get(high).getIsAddition() == true) ? myData.get(j).getAmnt() : myData.get(j).getAmnt() * -1;
+                    if (compAmt < pivotAmt) {
+                      
+                        i++;
+                        swap(myData, i, j);
+                    }
+                }
+                break;
+            case "type":
+                String pivotTyp = myData.get(high).getType().toString().toLowerCase();
+                for (int j = low; j <= high - 1; j++) {
+                    String compTyp = myData.get(j).getType().toString().toLowerCase();
+                    if (compTyp.charAt(0) < pivotTyp.charAt(0)) {
+                        i++;
+                        swap(myData, i, j);
+                    }
+                }
+                break;
+            case "from":
+                String pivotFrom = myData.get(high).getFrom().toLowerCase();
+                for (int j = low; j <= high - 1; j++) {
+                    String compFrom = myData.get(j).getFrom().toLowerCase();
+                    if (compFrom.charAt(0) < pivotFrom.charAt(0)) {
+                        i++;
+                        swap(myData, i, j);
+                    }
+                }
+                break;
+            case "id":
+                int pivotID = myData.get(high).getId();
+                    for (int j = low; j <= high - 1; j++) {
+                        int compID = myData.get(j).getId();
+                        if (compID < pivotID) {
+                            i++;
+                            swap(myData, i, j);
+                        }
+                    }
+                break;
+            default:
+                break;
+
+
+        }
+ 
+ 
+        swap(myData, i + 1, high);
+        return (i + 1);
+    }
+ 
+    
+    static void quickSort(List<transaction> myData, int low, int high, String sortingBasis)
+    {
+        if (low < high) {
+ 
+        
+            int pi = partition(myData, low, high, sortingBasis);
+ 
+            
+            quickSort(myData, low, pi - 1, sortingBasis);
+            quickSort(myData, pi + 1, high, sortingBasis);
+        }
+    }
+ 
+    //Quick Sort End
 
 
     //Table Width Auto Resize - Do no Touch
@@ -603,5 +736,23 @@ public class pageOne extends JPanel{
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);
         //future references RGB(96, 153, 102) || RGB(64, 81, 59)
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    
+        if (e.getSource() == sortAmnt) {
+            sortBy("Amount");
+        } else if (e.getSource() == sortFrm) {
+            sortBy("From");
+        } else if (e.getSource() == sortID) {
+            sortBy("ID");
+        } else if (e.getSource() == sortTyp) {
+            sortBy("Type");
+        }
+      
+
     }
 }

@@ -39,7 +39,7 @@ public class valueFrame extends JFrame {
     JPanel datePanel;
 
     public valueFrame() {
-        this.setTitle("Profile Information");
+        this.setTitle("Transaction Information");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize((int)width, (int)height);
