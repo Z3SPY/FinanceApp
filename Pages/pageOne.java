@@ -43,6 +43,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 
+import com.mysql.cj.log.Log;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import Database.transaction;
@@ -477,7 +478,7 @@ public class pageOne extends JPanel implements ActionListener{
 
           //Get the status for the current row.
           if (value.toString().charAt(0) != '-') {
-            l.setForeground(Color.GREEN);
+            l.setForeground(Color.BLUE);
             l.setText("+" + l.getText());
           } else {
             l.setForeground(Color.RED);
