@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import Database.SQLiteDB;
 import Elements.HintTextField;
 
 import java.awt.Color;
@@ -27,16 +28,15 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
-
-
+import java.sql.SQLException;
 
 
 public class Login extends JFrame implements ActionListener {
 
-    public static Color colorScheme[] = {Color.decode("#76515E"), Color.decode("#517669"), Color.decode("#385148"), Color.decode("#27332F"), Color.decode("#d7f8c2")}; 
+    public static Color colorScheme[] = {Color.decode("#76515E"), Color.decode("#517669"), Color.decode("#385148"), Color.decode("#27332F"), Color.decode("#d7f8c2")};
 
     //Logo
-    Icon companyLogo; 
+    Icon companyLogo;
     JLabel companyLabel, companySlogan;
     //Logo End
 
@@ -45,7 +45,9 @@ public class Login extends JFrame implements ActionListener {
     JLabel registerLabel;
     JButton submit; 
     JPanel imagePanel, inputPanel;
+    String pass,uName;
     static Boolean registration = false;
+    SQLiteDB DB = new SQLiteDB();
 
     String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png"};
 
@@ -71,7 +73,7 @@ public class Login extends JFrame implements ActionListener {
         companyLogo = new ImageIcon(new ImageIcon("App-Images/CompanyLogo.png").getImage().getScaledInstance(200, 250, Image.SCALE_DEFAULT));
         companyLabel = new JLabel(companyLogo);
         companyLabel.setBounds(57, 25, 200, 250);
-        
+
         companySlogan = new JLabel("<html>FINANCE<br>&nbsp;&nbsp;&nbsp;&nbsp;THE<br>&nbsp;PEOPLE</html>");
         companySlogan.setForeground(colorScheme[4]);
         companySlogan.setFont(new Font("Serif", Font.BOLD, 30));
@@ -100,6 +102,8 @@ public class Login extends JFrame implements ActionListener {
         inputPanel.setLayout(null);
         inputPanel.setBounds(getDimen(width, .58), 0, getDimen(width, .40), (int)height);
         inputPanel.setBackground(colorScheme[0]);
+        inputPanel.setFocusable(true);
+        inputPanel.requestFocus();
 
         //Username Text Field
         userText = new HintTextField("  Username");
@@ -131,10 +135,25 @@ public class Login extends JFrame implements ActionListener {
         submit.setBounds(40, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .30), getDimen(height, .05));
         submit.addActionListener(this);
         submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        
+
 
         submit.setBackground(colorScheme[3]);
         submit.setForeground(colorScheme[4]);
+
+
+        //Keylistener for Enter Key
+        KeyListener listener =  new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    submit.doClick();
+                }
+            }
+        };
+
+        submit.addKeyListener(listener);
+        passText.addKeyListener(listener);
+        userText.addKeyListener(listener);
 
         submit.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent me) {
@@ -158,7 +177,13 @@ public class Login extends JFrame implements ActionListener {
             public void mouseClicked(MouseEvent me) {
 
                 if (registration == false) {
-                    new Register(); // Create a function that closes this jframe to open another
+                    try {
+                        new Register(); // Create a function that closes this jframe to open another
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     registration = true;
                 } else {
                     System.out.println(registration);
@@ -197,13 +222,25 @@ public class Login extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        uName = userText.getText();
+        pass = passText.getText();
 
         if (e.getSource() == submit) {
             if (userText.getText().length() != 0 && passText.getText().length() != 0) {
-                this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
-                imgHolder.animateAgain.stop();
+                try {
+                    if(DB.isUserValid(uName,pass))
+                    {
+                        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
+                        imgHolder.animateAgain.stop();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "Username does not exist", "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Please Input a valid username and password.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
                 return;

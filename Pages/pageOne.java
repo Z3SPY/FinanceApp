@@ -43,8 +43,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 
-import com.mysql.cj.log.Log;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
+//import com.mysql.cj.log.Log;
+//import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import Database.transaction;
 
