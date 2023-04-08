@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import Database.SQLiteDB;
 import Elements.HintTextField;
 
 import java.awt.Color;
@@ -27,8 +28,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
-
-
+import java.sql.SQLException;
 
 
 public class Login extends JFrame implements ActionListener {
@@ -45,7 +45,9 @@ public class Login extends JFrame implements ActionListener {
     JLabel registerLabel;
     JButton submit; 
     JPanel imagePanel, inputPanel;
+    String pass,uName;
     static Boolean registration = false;
+    SQLiteDB DB = new SQLiteDB();
 
     String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png"};
 
@@ -132,7 +134,7 @@ public class Login extends JFrame implements ActionListener {
         submit = new JButton("LOGIN");
         submit.setBounds(40, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .30), getDimen(height, .05));
         submit.addActionListener(this);
-submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
 
         submit.setBackground(colorScheme[3]);
@@ -175,7 +177,13 @@ submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             public void mouseClicked(MouseEvent me) {
 
                 if (registration == false) {
-                    new Register(); // Create a function that closes this jframe to open another
+                    try {
+                        new Register(); // Create a function that closes this jframe to open another
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     registration = true;
                 } else {
                     System.out.println(registration);
@@ -193,14 +201,6 @@ submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             }
         });
 
-        inputPanel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    submit.doClick();
-                }
-            }
-        });
 
         //Adding to panel
         inputPanel.add(passText);
@@ -222,13 +222,25 @@ submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        uName = userText.getText();
+        pass = passText.getText();
 
         if (e.getSource() == submit) {
             if (userText.getText().length() != 0 && passText.getText().length() != 0) {
-                this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
-                imgHolder.animateAgain.stop();
+                try {
+                    if(DB.isUserValid(uName,pass))
+                    {
+                        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
+                        imgHolder.animateAgain.stop();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "Username does not exist", "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Please Input a valid username and password.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
                 return;
