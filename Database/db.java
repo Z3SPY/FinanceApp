@@ -15,14 +15,14 @@ public class db {
 
 
 
-        /* try( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
-            Statement stmt = conn.createStatement();
-        ) {
-            String sql = "CREATE DATABASE ADA";
-            stmt.executeUpdate(sql);
-            System.out.println("Database created successfully");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
+//         try( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//            Statement stmt = conn.createStatement();
+//        ) {
+//            String sql = "CREATE DATABASE ADA";
+//            stmt.executeUpdate(sql);
+//            System.out.println("Database created successfully");
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 }
