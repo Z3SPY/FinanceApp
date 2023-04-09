@@ -37,7 +37,7 @@ import java.sql.SQLException;
 public class Login extends JFrame implements ActionListener {
 
     public static Color colorScheme[] = {Color.decode("#76515E"), Color.decode("#517669"), Color.decode("#385148"), Color.decode("#27332F"), Color.decode("#d7f8c2")};
-    public static Color colorScheme2[] = {Color.decode("#37306B"), Color.decode("#66347F"), Color.decode("#9E4784"), Color.decode("#D27685")};
+    public static Color colorScheme2[] = {Color.decode("#37306B"), Color.decode("#66347F"), Color.decode("#9E4784"), Color.decode("#D27685"), Color.decode("#f6c009"), Color.decode("#e5901a")};
     //Logo
     Icon companyLogo;
     JLabel companyLabel, companySlogan;

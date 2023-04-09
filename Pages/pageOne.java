@@ -42,6 +42,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.util.Log;
 
 //import com.mysql.cj.log.Log;
 //import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
@@ -123,7 +124,7 @@ public class pageOne extends JPanel implements ActionListener{
            
 
             balanceCard.setInnerCard(15, 15); // Set This First Before Deginig Card - border-radius
-            balanceCard.CreateCard(0, 0, bCrdW, Login.getDimen(bCrdH, .50), new Color(64, 81, 59)); // Index 0  // card sa loob ng card
+            balanceCard.CreateCard(0, 0, bCrdW, Login.getDimen(bCrdH, .50), Login.colorScheme2[5]); // Index 0  // card sa loob ng card
 
                 
             JPanel tBC = balanceCard.getPanel(0);
@@ -137,7 +138,7 @@ public class pageOne extends JPanel implements ActionListener{
             balCounter.setBounds(Login.getDimen(bCrdW, .22), 20, bCrdW, Login.getDimen(bCrdH, .20));
             
             balanceCard.setInnerCard(30, 0); // Set This First Before Deginig Card
-            balanceCard.CreateCard(0, Login.getDimen(bCrdH, .37) , bCrdW, Login.getDimen(bCrdH, .63), new Color(96, 153, 102)); // Index 1
+            balanceCard.CreateCard(0, Login.getDimen(bCrdH, .37) , bCrdW, Login.getDimen(bCrdH, .63), Login.colorScheme2[4]); // Index 1
 
             JPanel vBC = balanceCard.getPanel(1);
             vBC.setLayout(null);
@@ -162,7 +163,7 @@ public class pageOne extends JPanel implements ActionListener{
             netLabel.setFont(myFont);
 
             netCard.setInnerCard(15, 15); // Set This First Before Deginig Card
-            netCard.CreateCard(0, 0, netCrdW, Login.getDimen(netCrdH, .50), new Color(64, 81, 59)); // Index 0
+            netCard.CreateCard(0, 0, netCrdW, Login.getDimen(netCrdH, .50), Login.colorScheme2[2]); // Index 0
 
                 
             JPanel tNC = netCard.getPanel(0);
@@ -176,7 +177,7 @@ public class pageOne extends JPanel implements ActionListener{
             netCounter.setBounds(Login.getDimen(netCrdW, .22), 20, netCrdW, Login.getDimen(netCrdH, .20));
             
             netCard.setInnerCard(30, 0); // Set This First Before Deginig Card
-            netCard.CreateCard(0, Login.getDimen(netCrdH, .37) , netCrdW, Login.getDimen(netCrdH, .63), new Color(96, 153, 102)); // Index 1
+            netCard.CreateCard(0, Login.getDimen(netCrdH, .37) , netCrdW, Login.getDimen(netCrdH, .63), Login.colorScheme2[3]); // Index 1
 
             JPanel vNC = netCard.getPanel(1);
             vNC.setLayout(null);
@@ -200,7 +201,7 @@ public class pageOne extends JPanel implements ActionListener{
             glBalLabel.setFont(myFont);
 
             goalCard.setInnerCard(15, 15); // Set This First Before Deginig Card
-            goalCard.CreateCard(0, 0, goalCrdW, Login.getDimen(goalCrdH, .50), new Color(64, 81, 59)); // Index 0
+            goalCard.CreateCard(0, 0, goalCrdW, Login.getDimen(goalCrdH, .50), Login.colorScheme2[2]); // Index 0
 
                 
             JPanel titleGoalCard = goalCard.getPanel(0);
@@ -215,7 +216,7 @@ public class pageOne extends JPanel implements ActionListener{
             glBalVal.setFont(new Font("Serif", Font.BOLD, 24)); // Font For Net Gain
             glBalVal.setBounds(Login.getDimen(goalCrdW, .19), 18, Login.getDimen(goalCrdW, .40), Login.getDimen(goalCrdH, .30));
             glBalVal.setBorder(javax.swing.BorderFactory.createEmptyBorder()); // Removes Border
-            glBalVal.setBackground(new Color(96, 153, 102)); // Sets the background of our textfield to the same background as our card
+            glBalVal.setBackground(Login.colorScheme2[3]); // Sets the background of our textfield to the same background as our card
             
 
             glBalVal.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -275,7 +276,7 @@ public class pageOne extends JPanel implements ActionListener{
             //End Jlabel Field
             
             goalCard.setInnerCard(30, 0); // Set This First Before Deginig Card
-            goalCard.CreateCard(0, Login.getDimen(goalCrdH, .37) , goalCrdW, Login.getDimen(goalCrdH, .63), new Color(96, 153, 102)); // Index 1
+            goalCard.CreateCard(0, Login.getDimen(goalCrdH, .37) , goalCrdW, Login.getDimen(goalCrdH, .63), Login.colorScheme2[3]); // Index 1
 
             JPanel valueGoalCard = goalCard.getPanel(1);
             valueGoalCard.setLayout(null);
@@ -733,7 +734,7 @@ public class pageOne extends JPanel implements ActionListener{
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         int w = getWidth(), h = getHeight();
         Color color1 = new Color(237,241,214);
-        Color color2 = new Color(157,192,139);
+        Color color2 = Login.colorScheme2[1];//new Color(157,192,139);
         GradientPaint gp = new GradientPaint(w/2, 0, color1, w/2, h, color2);
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);

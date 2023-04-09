@@ -193,7 +193,7 @@ class article {
         StyleConstants.setLineSpacing(fill, 1f);
         doc.setParagraphAttributes(0, doc.getLength(), fill, false);
         jValue.setText(atclValue);
-        jValue.setBackground(Color.PINK);
+        jValue.setBackground(Login.colorScheme2[4]);
         
         jValue.setFont(new Font("SANS", Font.BOLD, 14));
         jValue.setBounds(10,10, atclCont.getWidth() - 20,Login.getDimen((float) atclCont.getHeight(), 0.50));
@@ -203,13 +203,13 @@ class article {
         atclCont.CreateCard(0, 10, atclCont.getWidth(), Login.getDimen((float) atclCont.getHeight(), 0.25), null);// Index 0
         atclCont.getPanel(0).setLayout(null);
         atclCont.getPanel(0).add(jTitle);
-        atclCont.getPanel(0).setBackground(Color.BLUE);
+        atclCont.getPanel(0).setBackground(Login.colorScheme2[1]);
 
         atclCont.setInnerCard(20, 20);
         atclCont.CreateCard(0,  Login.getDimen((float) atclCont.getHeight(), 0.25), atclCont.getWidth(), Login.getDimen((float) atclCont.getHeight(), 0.75), null);
         atclCont.getPanel(1).setLayout(null);
         atclCont.getPanel(1).add(jValue);
-        atclCont.getPanel(1).setBackground(Color.PINK);
+        atclCont.getPanel(1).setBackground(Login.colorScheme2[4]);
 
        
         //Initialize Mouse Listener for animation

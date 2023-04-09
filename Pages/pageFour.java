@@ -22,7 +22,7 @@ public class pageFour extends JPanel {
 
 
     public pageFour(int width, int height) {
-        this.setBackground(Color.MAGENTA);
+        this.setBackground(Login.colorScheme2[1]);
         this.setBounds(Login.getDimen(width, .23), 0, Login.getDimen(width, .75), (int) height);
         this.setLayout(null);
         
@@ -49,7 +49,8 @@ public class pageFour extends JPanel {
         StyleConstants.setLineSpacing(fill, 1f);
         doc.setParagraphAttributes(0, doc.getLength(), fill, false);
         aboutME.setText("Howdy! I'm a simple farmer who finds joy in the great outdoors. I spend most of my days tending to the land and animals, but I also like to take long walks in the fields and forests around my farm. As much as I love the solitude of farm life, I'm also hoping to meet some new friends who share my love for nature and the simple pleasures in life. There's nothing like a good conversation over a cup of coffee or a shared meal made with fresh ingredients straight from the farm. So if you're looking for a down-to-earth friend to explore the outdoors with, I'm your guy!        ");
-        aboutME.setBackground(Color.magenta);
+        aboutME.setBackground(Login.colorScheme2[1]);
+        aboutME.setForeground(Color.WHITE);
         aboutME.setBounds(25, 250, 700, 500);
 
         title = new JLabel("ABOUT MYSELF");
