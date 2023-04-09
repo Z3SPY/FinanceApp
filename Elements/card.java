@@ -8,15 +8,21 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Timer;
 
 
 
 public class card extends JLayeredPane{
     
-    int cardX, cardY, cardW, cardH;
+    public int cardX;
+    int cardY;
+    int cardW;
+    int cardH;
     int rndWidth = 30, rndHeight = 30;
     JPanel myPanel;
     innerCard tempPanel;
@@ -77,8 +83,6 @@ public class card extends JLayeredPane{
         
         this.add(cardList.get(cardList.size() - 1));
 
-        this.revalidate();
-        this.repaint();
 
 
     }
@@ -86,6 +90,7 @@ public class card extends JLayeredPane{
     public JPanel getPanel(int index) {
         return cardList.get(index);
     }
+
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -96,7 +101,7 @@ public class card extends JLayeredPane{
         Graphics2D graphics = (Graphics2D) g;
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        graphics.setColor(getBackground());
+        graphics.setColor(Color.red);
         graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint background
         graphics.setColor(backColor);
         graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint border

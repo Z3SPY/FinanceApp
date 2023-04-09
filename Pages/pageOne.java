@@ -588,7 +588,7 @@ public class pageOne extends JPanel implements ActionListener{
                 double pivotAmt = (myData.get(high).getIsAddition() == true) ? myData.get(high).getAmnt() : myData.get(high).getAmnt() * -1;
                 for (int j = low; j <= high - 1; j++) {
  
-                    double compAmt = (myData.get(high).getIsAddition() == true) ? myData.get(j).getAmnt() : myData.get(j).getAmnt() * -1;
+                    double compAmt = (myData.get(j).getIsAddition() == true) ? myData.get(j).getAmnt() : myData.get(j).getAmnt() * -1;
                     if (compAmt < pivotAmt) {
                       
                         i++;
