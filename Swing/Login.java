@@ -56,7 +56,7 @@ public class Login extends JFrame implements ActionListener {
     static Boolean registration = false;
 
     
-    String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png"};
+    String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder2.png", "App-Images/PlaceHolder3.png"};
 
     public static void closeRegistration() {
         registration = false;
