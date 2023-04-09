@@ -42,10 +42,10 @@ public class choiceList<E extends Object> extends JList<E> {
     public choiceList() {
         setOpaque(false); //Transparancy
         setBackground(new Color(0, 0, 0, 0));
-        setForeground(Color.WHITE);
+        setForeground(Color.black);
         setFixedCellHeight(50);
         setSelectionBackground(new Color(0, 0, 0, 0)); //Makes Selected Background Opaque
-        setSelectionForeground(Color.BLUE); // Makes Selected Text Blue
+        setSelectionForeground(Color.white); // Makes Selected Text Blue
 
         this.setCellRenderer((ListCellRenderer<? super E>) getRenderer());
         

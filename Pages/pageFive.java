@@ -1,6 +1,7 @@
 package Pages;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,7 +10,9 @@ import java.awt.event.MouseListener;
 
 import Elements.card;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -35,16 +38,20 @@ public class pageFive extends JPanel {
 
         for (int i = 0; i < 3; i++) {
             listItems[i] = (new personCard((cardX * i) + 15, 50, cardX - 15, cardY));
+            System.out.println(cardY);
             this.add(listItems[i].myCard);
         }
     
+        listItems[0].SetUpPerson("App-Images/Person1.png");
+        listItems[1].SetUpPerson("App-Images/Person2.png");
+        listItems[2].SetUpPerson("App-Images/Person3.png");
 
-        
     }
 
     
 
     class personCard {
+        String personImg;
         public card myCard;
         boolean timerStartEnter = false, timerStartExit = false;
         Timer moveTimeDown = new Timer(0, new ActionListener() {
@@ -73,10 +80,31 @@ public class pageFive extends JPanel {
                 }
             }
         });
+
+        ImageIcon person1;
+        public void SetUpPerson(String p) {
+            this.personImg = p;
+            person1 = new ImageIcon(new ImageIcon(this.personImg).getImage().getScaledInstance(myCard.cardW, myCard.cardH, Image.SCALE_DEFAULT));
+
+            JLabel personImage1 = new JLabel(person1);
+            personImage1.setBounds(0, 0, myCard.cardW, myCard.cardH - 10);
+            myCard.getPanel(0).add(personImage1);
+
+        }
+
+
         personCard(int cardX, int cardY, int cardW, int cardH) {
+
+            //Create Card
             myCard = new card(cardX, cardY, cardW, cardH, Color.red);
-            
-            myCard.CreateCard(0, 0, cardW, cardH, Color.BLACK); //Inner Card
+            myCard.setInnerCard(30, 30);
+            myCard.CreateCard(0, 0, cardW, cardH - 50, Color.BLUE); //Image Card // 0
+            myCard.getPanel(0).setLayout(null);
+
+
+            myCard.setInnerCard(0, 0);
+            myCard.CreateCard(0,  cardH - 51, cardW, 50, Color.RED); //Lower Card //1
+
 
             myCard.addMouseListener(new MouseListener() {
 

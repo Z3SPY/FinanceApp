@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import Database.SQLiteDB;
+import Database.profile;
 import Elements.HintTextField;
 
 import java.awt.Color;
@@ -24,6 +25,8 @@ import java.sql.DriverManager;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 
+import org.sqlite.core.DB;
+
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -34,11 +37,15 @@ import java.sql.SQLException;
 public class Login extends JFrame implements ActionListener {
 
     public static Color colorScheme[] = {Color.decode("#76515E"), Color.decode("#517669"), Color.decode("#385148"), Color.decode("#27332F"), Color.decode("#d7f8c2")};
-
+    public static Color colorScheme2[] = {Color.decode("#37306B"), Color.decode("#66347F"), Color.decode("#9E4784"), Color.decode("#D27685")};
     //Logo
     Icon companyLogo;
     JLabel companyLabel, companySlogan;
     //Logo End
+
+    //SQL VARIABLES
+    SQLiteDB DB = new SQLiteDB();
+    public static profile myProfile;
 
     float width = 750, height = 700;
     JTextField passText, userText;
@@ -47,8 +54,8 @@ public class Login extends JFrame implements ActionListener {
     JPanel imagePanel, inputPanel;
     String pass,uName;
     static Boolean registration = false;
-    SQLiteDB DB = new SQLiteDB();
 
+    
     String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png", "App-Images/PlaceHolder.png"};
 
     public static void closeRegistration() {
@@ -238,12 +245,15 @@ public class Login extends JFrame implements ActionListener {
                 try {
                     if(DB.isUserValid(uName,pass))
                     {
+                        // System.out.println("Email Used: " + DB.getProfile(uName, pass).getEmail()); 
+                        myProfile = DB.getProfile(uName, pass);
+                        
+
                         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
                         imgHolder.animateAgain.stop();
                     }
                     else
-//                        JOptionPane.showMessageDialog(this, "Username does not exist", "Error", JOptionPane.WARNING_MESSAGE);
                         //displays Message when UserName and Password is Wrong, will hide in 1.5 Seconds
                         conditionLabel.setVisible(true);
                     ActionListener autohidemessage = new ActionListener() {

@@ -72,5 +72,19 @@ public class SQLiteDB {
         int count = result.getInt(1);
         return count > 0;
     }
+
+    public profile getProfile(String username, String pass) throws SQLException {
+        String sql = "SELECT uname, email FROM user WHERE uname = ? AND pass = ?";
+        PreparedStatement statement = con.prepareStatement(sql);
+        statement.setString(1, username);
+        statement.setString(2, pass);
+        ResultSet result = statement.executeQuery();
+        String retrievedUser = result.getString("uname");
+        String retrievedEmail = result.getString("email");
+
+
+        return new profile(retrievedEmail, retrievedUser);
+    }
+
 }
 

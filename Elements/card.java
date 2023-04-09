@@ -8,9 +8,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer;
@@ -20,9 +17,9 @@ import javax.swing.Timer;
 public class card extends JLayeredPane{
     
     public int cardX;
-    int cardY;
-    int cardW;
-    int cardH;
+    public int cardY;
+    public int cardW;
+    public int cardH;
     int rndWidth = 30, rndHeight = 30;
     JPanel myPanel;
     innerCard tempPanel;
@@ -101,7 +98,7 @@ public class card extends JLayeredPane{
         Graphics2D graphics = (Graphics2D) g;
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        graphics.setColor(Color.red);
+        graphics.setColor(Color.BLACK);
         graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint background
         graphics.setColor(backColor);
         graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height);//paint border
