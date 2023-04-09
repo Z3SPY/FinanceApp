@@ -351,14 +351,14 @@ class sideNavMenu extends JPanel{
     }
 
     public void initComp() {
-        buttonComp.add(new navItem("  Finances", "App-Images/logo_3.png", "App-Images/profile.png", MenuType.MENU));
-        buttonComp.add(new navItem("  Community", "App-Images/logo_3.png", "App-Images/profile.png",MenuType.MENU));
-        buttonComp.add(new navItem("  People", "App-Images/logo_3.png","App-Images/profile.png", MenuType.MENU));
-        buttonComp.add(new navItem("  About", "App-Images/logo_3.png","App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Finances", "App-Images/financeBase.png", "App-Images/financeSelected.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Community", "App-Images/communityBase.png", "App-Images/communitySelected.png",MenuType.MENU));
+        buttonComp.add(new navItem("  People", "App-Images/peopleSelected.png","App-Images/peopleBase.png", MenuType.MENU));
+        buttonComp.add(new navItem("  About", "App-Images/aboutBase.png","App-Images/aboutSelected.png", MenuType.MENU));
         buttonComp.add(new navItem("", "Icon Sample", "", MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", "",MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", "",MenuType.EMPTY));
-        buttonComp.add(new navItem("  Profile", "App-Images/logo_3.png", "App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Profile", "App-Images/profileBase.png", "App-Images/profileSelected.png", MenuType.MENU));
 
     }
 

@@ -366,7 +366,8 @@ public class pageOne extends JPanel implements ActionListener{
 
        //Transaction Logic
        JButton addTransBttn = new JButton("CREATE TRANSACTION");
-       addTransBttn.setBackground(Login.colorScheme[0]);
+       addTransBttn.setBackground(Login.colorScheme[3]);
+       addTransBttn.setForeground(Login.colorScheme2[3]);
        addTransBttn.setBounds(150, 535, 500, 70);
 
             addTransBttn.addActionListener(new ActionListener() {

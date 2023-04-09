@@ -38,6 +38,7 @@ public class pageThree extends JPanel{
         title.setFont(new Font("SANS", Font.BOLD, 18));
         title.setBounds(25, 160, width, 100);
         
+        
         this.add(title);
         this.add(aboutCompany);
     }

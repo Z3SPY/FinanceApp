@@ -1,6 +1,7 @@
 package Pages;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ public class pageFive extends JPanel {
     int cardX, cardY, cardOffSet;
     personCard listItems[];
     pageFive myRef = this;
+    JLabel personTitle;
 
     public pageFive(int width, int height) {
         this.setBackground(Color.WHITE);
@@ -46,6 +48,10 @@ public class pageFive extends JPanel {
         listItems[1].SetUpPerson("App-Images/Person2.png");
         listItems[2].SetUpPerson("App-Images/Person3.png");
 
+        personTitle =  new JLabel("MEET NEW PEOPLE");
+        personTitle.setFont(new Font("SANS", Font.BOLD, 18));
+        personTitle.setBounds(300,500, 400, 200);
+        this.add(personTitle);
     }
 
     
