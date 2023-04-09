@@ -42,6 +42,7 @@ public class pageFour extends JPanel {
         profilePic.setBounds(50, 50, 100, 100);
 
         aboutME = new JTextPane();
+        aboutME.setEditable(false);
         StyledDocument doc = aboutME.getStyledDocument();
         SimpleAttributeSet fill = new SimpleAttributeSet();
         StyleConstants.setAlignment(fill, StyleConstants.ALIGN_JUSTIFIED);

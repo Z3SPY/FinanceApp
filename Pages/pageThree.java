@@ -24,6 +24,7 @@ public class pageThree extends JPanel{
         this.setLayout(null);
 
         aboutCompany = new JTextPane();
+        aboutCompany.setEditable(false);
         StyledDocument doc = aboutCompany.getStyledDocument();
         SimpleAttributeSet fill = new SimpleAttributeSet();
         StyleConstants.setAlignment(fill, StyleConstants.ALIGN_JUSTIFIED);

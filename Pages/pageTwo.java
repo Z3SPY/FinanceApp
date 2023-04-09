@@ -186,6 +186,7 @@ class article {
         jValue = new JTextPane();
 
         //Fixing Wrapping and Justification
+        jValue.setEditable(false);
         StyledDocument doc = jValue.getStyledDocument();
         SimpleAttributeSet fill = new SimpleAttributeSet();
         StyleConstants.setAlignment(fill, StyleConstants.ALIGN_JUSTIFIED);
