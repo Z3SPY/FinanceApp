@@ -2,7 +2,9 @@ package Pages;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -10,12 +12,15 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import org.jfree.util.Log;
+
 import Swing.Login;
 
 public class pageThree extends JPanel{
     
     JTextPane aboutCompany;
     JLabel title;
+    ImageIcon design;
 
     //reminder Should make an Interface
     public pageThree(int width, int height) {
@@ -30,17 +35,25 @@ public class pageThree extends JPanel{
         StyleConstants.setAlignment(fill, StyleConstants.ALIGN_JUSTIFIED);
         StyleConstants.setLineSpacing(fill, 1f);
         doc.setParagraphAttributes(0, doc.getLength(), fill, false);
-        aboutCompany.setText("Howdy! I'm a simple farmer who finds joy in the great outdoors. I spend most of my days tending to the land and animals, but I also like to take long walks in the fields and forests around my farm. As much as I love the solitude of farm life, I'm also hoping to meet some new friends who share my love for nature and the simple pleasures in life. There's nothing like a good conversation over a cup of coffee or a shared meal made with fresh ingredients straight from the farm. So if you're looking for a down-to-earth friend to explore the outdoors with, I'm your guy!        ");
+        aboutCompany.setText("We are a company that specializes in providing financial convenience to farmers. Our team consists of experienced financial experts who understand the unique challenges that farmers face when managing their finances. We offer tailored financial solutions to help farmers manage their cash flow, secure financing for equipment and land purchases, and navigate the complexities of agricultural finance. " +
+        "In addition to our financial expertise, we prioritize making financial management as simple and convenient as possible for our customers. We offer a range of services, including online banking, mobile apps, and automated payment systems. We believe in building strong relationships with our customers and taking the time to understand their unique financial situations. Whether you're a small family farm or a large commercial operation, we're committed to helping you succeed.");
+
         aboutCompany.setBackground(Color.ORANGE);
-        aboutCompany.setFont(new Font("SANS", Font.PLAIN, 16));
-        aboutCompany.setBounds(25, 250, 700, 400);
+        aboutCompany.setFont(new Font("SANS", Font.PLAIN, 14));
+        aboutCompany.setBounds(25, 275, 700, 400);
 
         title = new JLabel("ABOUT THE COMPANY"); 
+        title.setForeground(Color.WHITE);
         title.setFont(new Font("SANS", Font.BOLD, 18));
-        title.setBounds(25, 160, width, 100);
+        title.setBounds(25, 200, width, 100);
+
+        design =  new ImageIcon(new ImageIcon("App-Images/Garden.png").getImage().getScaledInstance(width, Login.getDimen(height, .50), Image.SCALE_DEFAULT));
+        JLabel topDesign = new JLabel(design);
+        topDesign.setBounds(0, 0, width, Login.getDimen(height, .35));
         
         
         this.add(title);
         this.add(aboutCompany);
+        this.add(topDesign);
     }
 }

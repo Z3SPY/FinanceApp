@@ -91,7 +91,7 @@ public class pageOne extends JPanel implements ActionListener{
     static JFreeChart chart;
     static DefaultPieDataset dataset;
 
-    JButton sortAmnt, sortTyp, sortFrm, sortID;
+    JButton sortAmnt, sortTyp, sortFrm, sortID, clearTable;
     
     //Some JLabel
     JLabel graphLabel;
@@ -315,6 +315,10 @@ public class pageOne extends JPanel implements ActionListener{
        sortTyp.setFont(new Font("Serif", Font.BOLD, 10));
        sortTyp.addActionListener(this);
 
+       clearTable = new JButton("CLEAR VALUES");
+       clearTable.setBounds(10, 550, butWidth, 20);
+       clearTable.setFont(new Font("Serif", Font.BOLD, 10));
+       clearTable.addActionListener(this);
        
        
 
@@ -450,6 +454,7 @@ public class pageOne extends JPanel implements ActionListener{
         this.add(sortFrm);
         this.add(sortID);
         this.add(sortTyp);
+        this.add(clearTable);
 
         this.add(graphCard);
         this.setVisible(true);
@@ -754,6 +759,11 @@ public class pageOne extends JPanel implements ActionListener{
             sortBy("ID");
         } else if (e.getSource() == sortTyp) {
             sortBy("Type");
+        } else if (e.getSource() == clearTable) {
+            tableData.clear();
+            setUpTableData(conttable);
+            dataset.clear();
+            updateGraph(dataset);
         }
       
 

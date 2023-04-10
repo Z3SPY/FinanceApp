@@ -22,12 +22,12 @@ public class navItem {
     }
 
     public ImageIcon getNavIcon() {
-        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+        return new ImageIcon(new ImageIcon(navIcon).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
     }
 
     public ImageIcon getSelectedIcon() {
         System.out.println(selectedIcon);
-        return new ImageIcon(new ImageIcon(selectedIcon).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+        return new ImageIcon(new ImageIcon(selectedIcon).getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
     }
 
     public String getNavText() {

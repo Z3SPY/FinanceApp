@@ -29,11 +29,13 @@ public class pageFour extends JPanel {
         profileCircle = new ImageIcon(new ImageIcon("App-Images/circle.png").getImage().getScaledInstance(96,96, Image.SCALE_DEFAULT));
 
         JLabel myEmail =  new JLabel("Email: " + Login.myProfile.getEmail());
+        myEmail.setForeground(Color.WHITE);
         myEmail.setFont(new Font("SANS", Font.BOLD, 16));
         myEmail.setBounds(170, 50, 500, 100);
 
 
         JLabel myUser  = new JLabel("User Name: " + Login.myProfile.getUser());
+        myUser.setForeground(Color.WHITE);
         myUser.setFont(new Font("SANS", Font.BOLD, 16));
         myUser.setBounds(170, 75, 500, 100);
 
@@ -56,6 +58,8 @@ public class pageFour extends JPanel {
         title = new JLabel("ABOUT MYSELF");
         title.setFont(new Font("SANS", Font.BOLD, 24));
         title.setBounds(25, 160, 200, 100);
+        title.setForeground(Color.WHITE);
+
 
 
         this.add(profilePic);
