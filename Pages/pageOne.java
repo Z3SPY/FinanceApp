@@ -763,6 +763,8 @@ public class pageOne extends JPanel implements ActionListener{
             tableData.clear();
             setUpTableData(conttable);
             dataset.clear();
+            Balance = 0.00d;
+            balCounter.setText(String.format("%.2f PHP",Balance));
             updateGraph(dataset);
         }
       
