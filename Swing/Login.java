@@ -301,7 +301,7 @@ public class Login extends JFrame implements ActionListener {
         static Timer animateAgain;
         boolean animateRight;
         Timer animTimer;
-        int delay = 8;
+        int delay = 5;
         int curTime = 0;
 
         int imageWidth = this.width;
