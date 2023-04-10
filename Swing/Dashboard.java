@@ -1,10 +1,14 @@
 package Swing;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+
+import org.jfree.util.Log;
 
 import Elements.choiceList;
 import Elements.navItem;
@@ -54,10 +58,9 @@ public class Dashboard extends JFrame {
 
 
 
-
         //Instantiate Menu Choices
         menuChoices = new choiceList();
-        menuChoices.setBounds(25, 125, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .90));
+        menuChoices.setBounds(25, 200, (int) Login.getDimen(width, .25) - 60, (int) Login.getDimen(height, .90));
         menuChoices.setFont(new Font("DIALOG", Font.BOLD, 16));
 
 
@@ -113,17 +116,55 @@ public class Dashboard extends JFrame {
 
 class ProfileSection extends JPanel {
     
+    ImageIcon profileCircle;
+    JLabel welcomeText;
     ProfileSection(float frameW, float frameH, sideNavMenu sideNavRef, choiceList choiceListRef) {
-        this.setBounds(0, 10, Login.getDimen(frameW, .25) - 40, Login.getDimen(frameH, .13)); 
-        this.setBackground(Color.yellow);
+
+       
+
+        this.setBounds(0, 10, Login.getDimen(frameW, .25) - 40, Login.getDimen(frameH, .25)); 
+        this.setBackground(Login.colorScheme2[2]);
         this.setVisible(true);
+        this.setLayout(null);
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 choiceListRef.switchPageGlobal(7);
                 //new profileFrame();
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                welcomeText.setForeground(Color.WHITE);
+                setBackground(Login.colorScheme2[1]);
+                System.out.println("yo");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                welcomeText.setForeground(Color.BLACK);
+                setBackground(Login.colorScheme2[2]);
+                repaint();
+            }
         });
+
+        profileCircle = new ImageIcon(new ImageIcon("App-Images/circle.png").getImage().getScaledInstance(96,96, Image.SCALE_DEFAULT));
+        JLabel profileImage = new JLabel(profileCircle);
+        profileImage.setBounds(0, -30, 200, 200);
+        
+        welcomeText = new JLabel("<html>Welcome Back <font color=yellow> " + Login.myProfile.getUser() + "</font>!</html>");
+        welcomeText.setFont(new Font("SANS", Font.BOLD, 12));
+        welcomeText.setBackground(Color.BLACK);
+        
+        welcomeText.setBounds(38, 130, 120, 30);
+
+        
+        
+        this.add(profileImage);
+        this.add(welcomeText);
+
     }
+
+
 
     
 }
@@ -310,14 +351,14 @@ class sideNavMenu extends JPanel{
     }
 
     public void initComp() {
-        buttonComp.add(new navItem("  Finances", "App-Images/logo_3.png", "App-Images/profile.png", MenuType.MENU));
-        buttonComp.add(new navItem("  Community", "App-Images/logo_3.png", "App-Images/profile.png",MenuType.MENU));
-        buttonComp.add(new navItem("  People", "App-Images/logo_3.png","App-Images/profile.png", MenuType.MENU));
-        buttonComp.add(new navItem("  About", "App-Images/logo_3.png","App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Finances", "App-Images/financeBase.png", "App-Images/financeSelected.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Community", "App-Images/communityBase.png", "App-Images/communitySelected.png",MenuType.MENU));
+        buttonComp.add(new navItem("  People", "App-Images/peopleSelected.png","App-Images/peopleBase.png", MenuType.MENU));
+        buttonComp.add(new navItem("  About", "App-Images/aboutBase.png","App-Images/aboutSelected.png", MenuType.MENU));
         buttonComp.add(new navItem("", "Icon Sample", "", MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", "",MenuType.EMPTY));
         buttonComp.add(new navItem("", "Icon Sample", "",MenuType.EMPTY));
-        buttonComp.add(new navItem("  Profile", "App-Images/logo_3.png", "App-Images/profile.png", MenuType.MENU));
+        buttonComp.add(new navItem("  Profile", "App-Images/profileBase.png", "App-Images/profileSelected.png", MenuType.MENU));
 
     }
 
@@ -334,7 +375,8 @@ class sideNavMenu extends JPanel{
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         //Menu Colour and Border
-        GradientPaint g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFD56F"));
+       // GradientPaint g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFD56F"));
+       GradientPaint g = new GradientPaint(0, 0, Login.colorScheme2[3], 0, getHeight(),  Login.colorScheme2[2]);
         g2.setPaint(g);
         g2.fillRoundRect(-30, 0, menuX, menuY, 20, 20);
         //End
@@ -344,7 +386,7 @@ class sideNavMenu extends JPanel{
         g2.fillRoundRect(drawX, drawY, 70, 60, 180, 180); // Round Tip
 
 
-        g = new GradientPaint(0, 0, Color.decode("#FF7B54"), 0, getHeight(), Color.decode("#FFFFFF")); //Square Surronding Text
+        g = new GradientPaint(0, 0, Login.colorScheme[1], 0, getHeight(), Color.decode("#FFFFFF")); //Square Surronding Text
         g2.setPaint(g);
         g2.fillRoundRect(0, drawY + 4, 180, 50, 30, 30); // Round Tip
 
