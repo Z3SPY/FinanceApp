@@ -46,8 +46,8 @@ public class pageFive extends JPanel implements ActionListener {
         nxtLeft = new JButton("<");
         nxtRight = new JButton(">");
         
-        nxtLeft.setBounds( 5 , Login.getDimen(height, .40), Login.getDimen(width, .08), Login.getDimen(width, .10));
-        nxtRight.setBounds( Login.getDimen(width, .68) , Login.getDimen(height, .40), Login.getDimen(width, .08), Login.getDimen(width, .10));
+        nxtLeft.setBounds( 5 , Login.getDimen(height, .85), Login.getDimen(width, .08), Login.getDimen(width, .05));
+        nxtRight.setBounds( Login.getDimen(width, .68) , Login.getDimen(height, .85), Login.getDimen(width, .08), Login.getDimen(width, .05));
         nxtLeft.addActionListener(this);
         nxtRight.addActionListener(this);
 
@@ -55,20 +55,24 @@ public class pageFive extends JPanel implements ActionListener {
 
         listItems = new personCard[3];
 
-        cardX = Login.getDimen(width, .20);
+        cardX = Login.getDimen(width, .25);
         cardY =  Login.getDimen(height, .75);
         cardOffSet = 15;
 
 
         for (int i = 0; i < 3; i++) {
-            listItems[i] = (new personCard((cardX * i) + 90, 50, cardX - 15, cardY));
+            listItems[i] = (new personCard((cardX * i) + 10, 50, cardX - 15, cardY));
             System.out.println(cardY);
             this.add(listItems[i].myCard);
         }
         
-        myPeople.addNodeFront(new peopleObject("App-Images/Person1.png", "1"));
-        myPeople.addNodeFront(new peopleObject("App-Images/Person2.png", "2"));
-        myPeople.addNodeFront(new peopleObject("App-Images/Person3.png", "3"));
+        myPeople.addNodeFront(new peopleObject("App-Images/Person2.png", "OLD MAN"));
+        myPeople.addNodeFront(new peopleObject("App-Images/Person3.png", "JEROME"));
+        myPeople.addNodeFront(new peopleObject("App-Images/Person4.png", "MR P."));
+        myPeople.addNodeFront(new peopleObject("App-Images/Person5.png", "LILLITH"));
+        myPeople.addNodeFront(new peopleObject("App-Images/Person6.png", "KLLYDE"));
+        myPeople.addNodeFront(new peopleObject("App-Images/Person1.png", "LUTHER"));
+
 
         myPeople.printAll();
        
@@ -79,7 +83,7 @@ public class pageFive extends JPanel implements ActionListener {
 
         personTitle =  new JLabel("MEET NEW PEOPLE");
         personTitle.setFont(new Font("SANS", Font.BOLD, 18));
-        personTitle.setBounds(300,500, 400, 200);
+        personTitle.setBounds(290,475, 400, 200);
         this.add(nxtLeft);
         this.add(nxtRight);
         this.add(personTitle);
