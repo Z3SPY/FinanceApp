@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,12 +35,14 @@ import javax.swing.JLayeredPane;
 import Elements.card;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import Swing.Login;
 
 public class pageTwo extends JPanel{
 
-    List<article> articles = new ArrayList<article>(10);
+    Queue<article> articles = new LinkedList<article>();
+
     JScrollPane scroll;
 
     public pageTwo(int width, int height) {
@@ -73,36 +76,41 @@ public class pageTwo extends JPanel{
         }   
         //Card End
 
-
+        article temp = articles.remove();
         //Setup Fake Articles
-        articles.get(0).setTitle("Your Agricultural Upstart");
-        articles.get(0).setValue("Are you passionate about agriculture and looking to start your own agribusiness? " +
+        temp.setTitle("Your Agricultural Upstart");
+        temp.setValue("Are you passionate about agriculture and looking to start your own agribusiness? " +
         "Starting an agricultural upstart can be a rewarding and fulfilling venture, but it requires careful planning and preparation. " +
         "Here are some steps to follow to make a successful agricultural upstart.");
 
-        articles.get(1).setTitle("Identify a need or opportunity");
-        articles.get(1).setValue("Start by identifying a need or opportunity in the agriculture industry." +
+        temp = articles.remove();
+        temp.setTitle("Identify a need or opportunity");
+        temp.setValue("Start by identifying a need or opportunity in the agriculture industry." +
         " This could be a gap in the market, an unmet demand, or a problem that needs solving.");
 
-        articles.get(2).setTitle("Research the market");
-        articles.get(2).setValue("Conduct market research to gain a better understanding of the industry and "+
+        temp = articles.remove();
+        temp.setTitle("Research the market");
+        temp.setValue("Conduct market research to gain a better understanding of the industry and "+
         "the potential customers. This will help you identify the target audience, the competitors, and the current trends.");
 
-
-        articles.get(3).setTitle("Develop a business plan ");
-        articles.get(3).setValue("Develop a comprehensive business plan that outlines the goals, objectives, and strategies of"+
+        temp = articles.remove();
+        temp.setTitle("Develop a business plan ");
+        temp.setValue("Develop a comprehensive business plan that outlines the goals, objectives, and strategies of"+
         " your upstart. This plan should include a detailed financial analysis, marketing plan, and operational plan.");
 
-        articles.get(4).setTitle("Choose a legal structure");
-        articles.get(4).setValue("Decide on the legal structure of your upstart, such as sole proprietorship, partnership, " +
+        temp = articles.remove();
+        temp.setTitle("Choose a legal structure");
+        temp.setValue("Decide on the legal structure of your upstart, such as sole proprietorship, partnership, " +
         "or limited liability company (LLC). This will depend on your personal preferences, financial situation, and the type of business you want to start.");
 
-        articles.get(5).setTitle("Secure funding");
-        articles.get(5).setValue("Determine the amount of funding you will need to start and grow your upstart. This may" + 
+        temp = articles.remove();
+        temp.setTitle("Secure funding");
+        temp.setValue("Determine the amount of funding you will need to start and grow your upstart. This may" + 
         " include personal savings, loans, grants, or investments from partners or investors.");
 
-        articles.get(6).setTitle("Start growing");
-        articles.get(6).setValue("Start growing your crops, raising your animals, or producing your agricultural products. Monitor your progress, "+
+        temp = articles.remove();
+        temp.setTitle("Start growing");
+        temp.setValue("Start growing your crops, raising your animals, or producing your agricultural products. Monitor your progress, "+
         "adjust your strategies as needed, and continue to innovate and improve....Read");
        
        

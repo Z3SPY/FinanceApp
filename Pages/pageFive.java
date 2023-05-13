@@ -174,7 +174,7 @@ public class pageFive extends JPanel implements ActionListener {
 
         personCard(int cardX, int cardY, int cardW, int cardH) {
             //Create Card
-            myCard = new card(cardX, cardY, cardW, cardH, Color.red);
+            myCard = new card(cardX, cardY, cardW, cardH, Login.colorScheme2[2]);
             myCard.setInnerCard(30, 30);
             myCard.CreateCard(0, 0, cardW, cardH - 50, Color.BLUE); //Image Card // 0
             myCard.getPanel(0).setLayout(null);
@@ -182,7 +182,7 @@ public class pageFive extends JPanel implements ActionListener {
             
 
             myCard.setInnerCard(0, 0);
-            myCard.CreateCard(0,  cardH - 51, cardW, 50, Color.RED); //Lower Card //1
+            myCard.CreateCard(0,  cardH - 51, cardW, 50, Login.colorScheme2[2]); //Lower Card //1
             myCard.getPanel(1).setLayout(null);
            
 

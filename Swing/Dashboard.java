@@ -46,7 +46,7 @@ public class Dashboard extends JFrame {
     pageFive peoplePage;
 
     Dashboard() {
-        this.setTitle("Application Dashboard");
+        this.setTitle("Valhalla Finance Dashboard");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize((int)width, (int)height);

@@ -39,7 +39,7 @@ public class valueFrame extends JFrame {
     JPanel datePanel;
 
     public valueFrame() {
-        this.setTitle("Transaction Information");
+        this.setTitle("Table Transaction");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize((int)width, (int)height);
@@ -49,7 +49,7 @@ public class valueFrame extends JFrame {
         typeChoice = new JComboBox<>(trnsType.values());
         typeChoice.setBounds(300, 0, 300, 50);
 
-        fromTextField = new HintTextField("Water Inc.");
+        fromTextField = new HintTextField("Ex: Water Inc.");
         fromTextField.setBounds(300, 50, 300, 50);
 
 
