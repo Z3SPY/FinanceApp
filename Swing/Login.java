@@ -32,6 +32,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.sql.SQLException;
+import java.util.Stack;
 
 
 public class Login extends JFrame implements ActionListener {
@@ -49,13 +50,13 @@ public class Login extends JFrame implements ActionListener {
 
     float width = 750, height = 700;
     JTextField passText, userText;
-    JLabel registerLabel, conditionLabel;
+    JLabel registerLabel, conditionLabel,tryremaining;
     JButton submit; 
     JPanel imagePanel, inputPanel;
     String pass,uName;
     static Boolean registration = false;
 
-    
+    static Stack<Integer> counttry = new Stack<Integer>();
     String imageString[] = {"App-Images/PlaceHolder.png", "App-Images/PlaceHolder2.png", "App-Images/PlaceHolder3.png"};
 
     public static void closeRegistration() {
@@ -77,6 +78,11 @@ public class Login extends JFrame implements ActionListener {
     }
     
     Login() {
+
+        counttry.push(1);
+        counttry.push(2);
+        counttry.push(3);
+
         companyLogo = new ImageIcon(new ImageIcon("App-Images/CompanyLogo.png").getImage().getScaledInstance(200, 250, Image.SCALE_DEFAULT));
         companyLabel = new JLabel(companyLogo);
         companyLabel.setBounds(57, 25, 200, 250);
@@ -139,7 +145,7 @@ public class Login extends JFrame implements ActionListener {
 
         //Login Button
         submit = new JButton("LOGIN");
-        submit.setBounds(40, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 2, getDimen(width, .30), getDimen(height, .05));
+        submit.setBounds(40, ((getDimen(height, .05) * 2) + posOffset) + lineOffset * 3, getDimen(width, .30), getDimen(height, .05));
         submit.addActionListener(this);
         submit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
@@ -149,7 +155,10 @@ public class Login extends JFrame implements ActionListener {
         conditionLabel.setForeground(Color.RED);
         conditionLabel.setVisible(false);
 
-
+        tryremaining = new JLabel("x Tries Remaining");
+        tryremaining.setBounds(getDimen(width, .13), ((getDimen(height, .03) * 3) + posOffset) + lineOffset * 1, getDimen(width, .35), getDimen(height, .05));
+        tryremaining.setForeground(Color.RED);
+        tryremaining.setVisible(false);
 
         submit.setBackground(colorScheme[3]);
         submit.setForeground(colorScheme[4]);
@@ -220,6 +229,7 @@ public class Login extends JFrame implements ActionListener {
         inputPanel.add(conditionLabel);
         inputPanel.add(passText);
         inputPanel.add(userText);
+        inputPanel.add(tryremaining);
         inputPanel.add(submit);
         inputPanel.add(registerLabel);
         inputPanel.add(companyLabel);
@@ -253,18 +263,30 @@ public class Login extends JFrame implements ActionListener {
                         this.dispatchEvent(new WindowEvent(new Dashboard(), WindowEvent.WINDOW_CLOSING));
                         imgHolder.animateAgain.stop();
                     }
-                    else
+                    else{
                         //displays Message when UserName and Password is Wrong, will hide in 1.5 Seconds
                         conditionLabel.setVisible(true);
+                        if(!counttry.isEmpty()){
+                            tryremaining.setText(counttry.pop()+" Tries Remaining");
+                        }else {
+                            JOptionPane.showMessageDialog(this, "You Have Reached Maximum Tries, Closing Application");
+                            System.exit(0);
+                        }
+                        tryremaining.setVisible(true);
+                    }
+
                     ActionListener autohidemessage = new ActionListener() {
                         public void actionPerformed(ActionEvent evt) {
+
                             conditionLabel.setVisible(false);
+                            tryremaining.setVisible(false);
                         }
                     };
                     Timer timer = new Timer(2000 ,autohidemessage);
                     timer.setRepeats(false);
                     timer.start();
                     return;
+
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -275,9 +297,17 @@ public class Login extends JFrame implements ActionListener {
 
                 //displays Message when UserName and Password is Wrong, will hide in 1.5 Seconds
                 conditionLabel.setVisible(true);
+                if(!counttry.isEmpty()){
+                    tryremaining.setText(counttry.pop()+" Tries Remaining");
+                }else {
+                    JOptionPane.showMessageDialog(this, "You Have Reached Maximum Tries, Closing Application");
+                    System.exit(0);
+                }
+                tryremaining.setVisible(true);
                 ActionListener autohidemessage = new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         conditionLabel.setVisible(false);
+                        tryremaining.setVisible(false);
                     }
                 };
                 Timer timer = new Timer(2000 ,autohidemessage);
